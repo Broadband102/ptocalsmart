@@ -1,0 +1,1134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Shift PTO Optimizer</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1B3A5C;
+  --navy2:#234876;
+  --navy3:#2d5a94;
+  --gold:#C4972A;
+  --gold2:#d9a830;
+  --gold-dim:rgba(196,151,42,.15);
+  --bg:#f0f4f8;
+  --white:#ffffff;
+  --card:#ffffff;
+  --border:#d0dce8;
+  --border2:#b8ccd8;
+  --text:#1a2a3a;
+  --muted:#4a6070;
+  --muted2:#7a9aaa;
+  --green:#1a7a3a;
+  --green-bg:#e8f5ed;
+  --green-border:#a8d8b8;
+  --amber:#b87010;
+  --amber-bg:#fdf3e0;
+  --amber-border:#e8c070;
+  --red:#c02020;
+  --red-bg:#fde8e8;
+  --red-border:#e8a0a0;
+  --blue-bg:#e8f0f8;
+  --blue-border:#a8c0d8;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
+  --tabh:62px;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{color:var(--text);font-family:"Open Sans",sans-serif;font-size:15px;-webkit-font-smoothing:antialiased}
+
+/* SETUP */
+#setup{position:fixed;inset:0;background:var(--navy);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.s-logo{font-family:"Montserrat",sans-serif;font-weight:800;font-size:clamp(1.8rem,6vw,2.8rem);color:var(--white);text-align:center;margin-bottom:4px;letter-spacing:-.02em}
+.s-logo span{color:var(--gold)}
+.s-sub{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);text-align:center;margin-bottom:28px}
+.s-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:24px;width:100%;max-width:440px;display:flex;flex-direction:column;gap:16px;backdrop-filter:blur(10px)}
+.flbl{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:5px}
+.fdesc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.6}
+.finput{width:100%;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);color:#fff;padding:13px 15px;border-radius:10px;font-family:"Open Sans",sans-serif;font-size:16px;outline:none;-webkit-appearance:none;transition:border-color .2s}
+.finput::placeholder{color:rgba(255,255,255,.35)}
+.finput:focus{border-color:var(--gold)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.s-btn{background:var(--gold);color:var(--navy);border:none;padding:15px;border-radius:12px;font-family:"Montserrat",sans-serif;font-weight:800;font-size:16px;cursor:pointer;width:100%;letter-spacing:.04em;transition:background .15s}
+.s-btn:active{background:var(--gold2)}
+.s-err{font-size:13px;color:#ffb0b0;min-height:18px;text-align:center}
+.s-hint{font-size:12px;color:rgba(255,255,255,.3);text-align:center;line-height:1.6}
+hr.div{border:none;border-top:1px solid rgba(255,255,255,.12)}
+
+/* APP */
+#app{display:none;flex-direction:column;height:100%;padding-top:var(--safe-top)}
+#app.on{display:flex}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--navy);flex-shrink:0;height:54px}
+.tb-brand{font-family:"Montserrat",sans-serif;font-weight:800;font-size:18px;color:var(--white);letter-spacing:-.01em}
+.tb-brand span{color:var(--gold)}
+.tb-right{display:flex;align-items:center;gap:8px}
+.pto-pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 12px;font-size:13px;color:rgba(255,255,255,.7);white-space:nowrap}
+.pto-pill b{color:var(--gold)}
+.reset-btn{background:none;border:none;color:rgba(255,255,255,.4);font-size:16px;padding:6px;cursor:pointer}
+.topnav{display:none;gap:2px}
+@media(min-width:768px){.topnav{display:flex}.tabs{display:none!important}}
+.tnav-btn{padding:8px 14px;background:none;border:none;color:rgba(255,255,255,.5);font-family:"Montserrat",sans-serif;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:8px;transition:all .15s}
+.tnav-btn:hover{color:#fff;background:rgba(255,255,255,.1)}
+.tnav-btn.active{color:var(--gold);background:rgba(196,151,42,.15)}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:calc(var(--tabh)+var(--safe-bot)+12px);-webkit-overflow-scrolling:touch}
+.tabs{position:fixed;bottom:0;left:0;right:0;height:calc(var(--tabh)+var(--safe-bot));padding-bottom:var(--safe-bot);background:var(--navy);display:flex;z-index:100;border-top:1px solid rgba(255,255,255,.1)}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;cursor:pointer;color:rgba(255,255,255,.4);transition:color .15s}
+.tab.active{color:var(--gold)}
+.tab-icon{font-size:18px}.tab-lbl{font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-family:"Montserrat",sans-serif;font-weight:600}
+.page{display:none;padding:16px}.page.on{display:block}
+@media(min-width:768px){.page{padding:20px 24px;max-width:1200px;margin:0 auto;width:100%}}
+
+/* SECTION TITLE */
+.sec-title{font-family:"Montserrat",sans-serif;font-weight:800;font-size:18px;color:var(--navy);margin-bottom:4px;letter-spacing:-.01em}
+.sec-sub{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+
+/* DASHBOARD */
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+@media(min-width:560px){.dgrid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.dgrid{grid-template-columns:repeat(6,1fr)}}
+.dc{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.dc-lbl{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin-bottom:5px}
+.dc-val{font-family:"Montserrat",sans-serif;font-weight:800;font-size:22px;line-height:1;color:var(--navy)}
+.dc-sub{font-size:11px;color:var(--muted2);margin-top:3px}
+.dc-val.gold{color:var(--gold)}.dc-val.green{color:var(--green)}.dc-val.navy{color:var(--navy)}
+
+.cfg-box{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.cfg-title{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:12px}
+.cfg-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+@media(min-width:600px){.cfg-grid{grid-template-columns:repeat(4,1fr)}}
+.cf label{display:block;font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.cf .finput-light{width:100%;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:10px 12px;border-radius:8px;font-family:"Open Sans",sans-serif;font-size:15px;outline:none;-webkit-appearance:none;transition:border-color .2s}
+.cf .finput-light:focus{border-color:var(--navy)}
+.save-btn{width:100%;background:var(--navy);color:#fff;border:none;padding:12px;border-radius:9px;font-family:"Montserrat",sans-serif;font-weight:700;font-size:15px;cursor:pointer;letter-spacing:.04em;transition:background .15s}
+.save-btn:active{background:var(--navy2)}
+.saved-msg{text-align:center;font-size:13px;color:var(--green);margin-top:7px;min-height:15px;font-weight:600}
+
+.up-list{display:flex;flex-direction:column;gap:7px}
+.uc{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.uc.fd{border-color:var(--blue-border);background:var(--blue-bg)}
+.uc.hol{border-color:var(--green-border);background:var(--green-bg)}
+.uc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.uc.fd .uc-dot{background:var(--navy3)}.uc.hol .uc-dot{background:var(--green)}
+.uc-type{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:2px}
+.uc-date{font-family:"Montserrat",sans-serif;font-weight:700;font-size:16px}
+.uc.fd .uc-date{color:var(--navy)}.uc.hol .uc-date{color:var(--green)}
+.uc-desc{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* CALENDAR */
+.yr-row{display:flex;gap:6px;margin-bottom:10px}
+.yr-btn{flex:1;padding:10px;background:var(--white);border:1.5px solid var(--border);color:var(--muted);border-radius:9px;font-family:"Montserrat",sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .15s}
+.yr-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.cal-leg{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px;background:var(--white);border:1px solid var(--border);border-radius:9px;padding:10px}
+@media(min-width:500px){.cal-leg{grid-template-columns:repeat(3,1fr)}}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;text-transform:uppercase;color:var(--muted);font-family:"Montserrat",sans-serif;font-weight:600;letter-spacing:.06em}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.months{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:460px){.months{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:700px){.months{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1050px){.months{grid-template-columns:repeat(4,1fr)}}
+.mcard{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.mhdr{background:var(--navy);display:flex;justify-content:space-between;align-items:center;padding:10px 14px}
+.mhdr-name{font-family:"Montserrat",sans-serif;font-weight:700;font-size:14px;color:#fff}
+.mhdr-yr{font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em}
+.dow-row{display:grid;grid-template-columns:repeat(7,1fr);background:var(--navy2)}
+.dow-c{text-align:center;font-size:10px;text-transform:uppercase;color:rgba(255,255,255,.6);padding:5px 0;font-family:"Montserrat",sans-serif;font-weight:600}
+.days-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:clamp(12px,1.3vw,15px);font-weight:600;border:.5px solid var(--border);font-family:"Montserrat",sans-serif;color:var(--text)}
+.day.empty{background:transparent;border-color:transparent}
+.day.work{background:#fff}
+.day.rolling{background:#e8f0f8;color:var(--navy)}
+.day.fourday{background:var(--navy);color:#fff}
+.day.holiday{background:var(--gold-dim);color:var(--amber);outline:2px solid var(--gold);outline-offset:-2px}
+.day.worked-hol{background:#f8e8e8;color:var(--red);outline:2px solid #e08080;outline-offset:-2px}
+.day.payday{outline:2px dashed var(--gold);outline-offset:-2px}
+.day.fourday.payday{outline:2px solid var(--gold);outline-offset:-2px}
+.dlbl{font-size:9px;text-transform:uppercase;margin-top:1px;opacity:.8;line-height:1;font-family:"Montserrat",sans-serif;font-weight:700}
+
+/* HOLIDAYS */
+.hol-controls{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.hol-sel-wrap{display:flex;flex-direction:column;gap:5px;flex:1;min-width:120px}
+.hol-sel-lbl{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2)}
+.hol-sel{background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:10px 12px;border-radius:9px;font-family:"Open Sans",sans-serif;font-size:15px;outline:none;cursor:pointer;width:100%}
+.hol-sel:focus{border-color:var(--navy)}
+.hol-add-btn{background:var(--navy);color:#fff;border:none;padding:10px 18px;border-radius:9px;font-family:"Montserrat",sans-serif;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;height:42px}
+.hol-add-btn:active{background:var(--navy2)}
+.hol-list-wrap{display:flex;flex-direction:column;gap:6px}
+.hol-item{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.hol-item.worked{border-color:#e08080;background:#fff8f8}
+.hol-item.off{border-color:var(--green-border);background:var(--green-bg)}
+.hol-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hol-icon.worked{background:#ffe8e8}
+.hol-icon.off{background:var(--green-bg)}
+.hol-info{flex:1;min-width:0}
+.hol-name{font-family:"Montserrat",sans-serif;font-weight:700;font-size:14px;color:var(--navy);margin-bottom:2px}
+.hol-date-str{font-size:12px;color:var(--muted)}
+.hol-status{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.hol-status.worked{color:var(--red)}
+.hol-status.off{color:var(--green)}
+.hol-toggle{background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:7px 14px;border-radius:8px;font-family:"Montserrat",sans-serif;font-weight:700;font-size:12px;cursor:pointer;flex-shrink:0;transition:all .15s}
+.hol-toggle.worked{background:#ffe8e8;border-color:#e08080;color:var(--red)}
+.hol-toggle.off{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+.hol-del{background:none;border:none;color:var(--muted2);font-size:18px;cursor:pointer;padding:4px 6px;flex-shrink:0;line-height:1}
+
+/* OPTIMIZER */
+.opt-controls{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.opt-sel-wrap{display:flex;flex-direction:column;gap:5px;flex:1;min-width:140px}
+.opt-sel-lbl{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2)}
+.opt-sel{background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:11px 13px;border-radius:9px;font-family:"Open Sans",sans-serif;font-size:15px;outline:none;cursor:pointer;width:100%}
+.run-btn{background:var(--gold);color:var(--navy);border:none;padding:11px 22px;border-radius:9px;font-family:"Montserrat",sans-serif;font-weight:800;font-size:15px;cursor:pointer;white-space:nowrap;letter-spacing:.04em;height:44px;transition:background .15s}
+.run-btn:active{background:var(--gold2)}
+.rpt-sum{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+@media(min-width:560px){.rpt-sum{grid-template-columns:repeat(4,1fr)}}
+.rs{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.rs-lbl{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:4px}
+.rs-val{font-family:"Montserrat",sans-serif;font-weight:800;font-size:22px;line-height:1;color:var(--navy)}
+.rs-val.gold{color:var(--gold)}.rs-val.green{color:var(--green)}
+.opp-list{display:flex;flex-direction:column;gap:12px}
+@media(min-width:860px){.opp-list{display:grid;grid-template-columns:1fr 1fr}}
+.opp{background:var(--white);border:2px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.opp.best{border-color:var(--gold)}
+.opp.good{border-color:var(--navy3)}
+.opp.ok{border-color:var(--border2)}
+.opp.cant{opacity:.55;border-color:var(--border)}
+.opp-head{background:var(--navy);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.opp-head.best{background:var(--gold)}
+.opp-title{font-family:"Montserrat",sans-serif;font-weight:800;font-size:17px;color:#fff}
+.opp-head.best .opp-title{color:var(--navy)}
+.opp-num{font-family:"Montserrat",sans-serif;font-weight:800;font-size:13px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.15);padding:3px 9px;border-radius:20px}
+.opp-head.best .opp-num{color:var(--navy);background:rgba(27,58,92,.2)}
+.opp-math{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border)}
+.opp-mc{padding:11px 14px;border-right:1px solid var(--border)}
+.opp-mc:last-child{border-right:none}
+.opp-mc-lbl{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:4px}
+.opp-mc-val{font-family:"Montserrat",sans-serif;font-weight:800;font-size:20px;line-height:1;color:var(--navy)}
+.opp-mc-val.gold{color:var(--amber)}.opp-mc-val.green{color:var(--green)}.opp-mc-val.free{color:var(--green)}
+.opp-mc-sub{font-size:11px;color:var(--muted2);margin-top:3px}
+.opp-days{padding:10px 14px}
+.opp-day{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid var(--border)}
+.opp-day:last-child{border-bottom:none}
+.opp-dow{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;color:var(--muted2);width:30px;flex-shrink:0;text-transform:uppercase}
+.opp-dname{font-size:14px;font-weight:600;color:var(--text);width:68px;flex-shrink:0}
+.opp-icon{width:20px;text-align:center;font-size:14px;flex-shrink:0}
+.opp-reason{font-size:13px;font-weight:500;flex:1}
+.opp-reason.free{color:var(--green)}
+.opp-reason.fd{color:var(--navy)}
+.opp-reason.pto-use{color:var(--amber)}
+.opp-reason.wknd{color:var(--muted2)}
+.opp-foot{padding:10px 14px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:5px;background:var(--bg)}
+.pill{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.pill.best{background:var(--gold);color:var(--navy)}
+.pill.good{background:var(--navy);color:#fff}
+.pill.ok{background:var(--blue-bg);color:var(--navy);border:1px solid var(--blue-border)}
+.pill.free-days{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.pill.hol-save{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.pill.need-more{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.pill.neutral{background:var(--bg);color:var(--muted);border:1px solid var(--border)}
+.strat-btn{background:var(--white);border:2px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:22px;font-family:"Montserrat",sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.strat-btn:hover{border-color:var(--navy);color:var(--navy)}
+.strat-btn.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.warn-box{background:var(--amber-bg);border:1.5px solid var(--amber-border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--amber);line-height:1.6;margin-bottom:12px;font-weight:500}
+.info-box{background:var(--blue-bg);border:1.5px solid var(--blue-border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--navy);line-height:1.6;margin-bottom:12px}
+.toast{position:fixed;bottom:calc(var(--tabh)+var(--safe-bot)+10px);left:50%;transform:translateX(-50%) translateY(14px);opacity:0;background:var(--navy);border-radius:20px;padding:8px 16px;font-size:13px;color:#fff;z-index:9998;transition:all .25s;pointer-events:none;white-space:nowrap;font-family:"Montserrat",sans-serif;font-weight:600}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{background:var(--green)}
+</style>
+</head>
+<body>
+
+<!-- SETUP -->
+<div id="setup">
+  <div class="s-logo">Shift<span>.</span>Sync</div>
+  <div class="s-sub">10-Hour Rolling Schedule · PTO Optimizer</div>
+  <div class="s-card">
+    <div>
+      <div class="flbl">Your Rolling Monday Off</div>
+      <div class="fdesc" style="margin-bottom:8px">Enter any Monday that is your scheduled rolling day off (MM/DD/YYYY)</div>
+      <input class="finput" id="s-mon" type="text" placeholder="MM/DD/YYYY" maxlength="10">
+    </div>
+    <hr class="div">
+    <div class="flbl" style="margin-bottom:10px">PTO Setup</div>
+    <div class="two-col">
+      <div><div class="flbl">Current Balance (hrs)</div><input class="finput" id="s-bal" type="number" placeholder="0" step="0.1" min="0" inputmode="decimal"></div>
+      <div><div class="flbl">Per Paycheck (hrs)</div><input class="finput" id="s-acc" type="number" placeholder="5.3" step="0.1" min="0" inputmode="decimal"></div>
+    </div>
+    <div class="two-col">
+      <div><div class="flbl">Next Pay Date</div><input class="finput" id="s-pay" type="text" placeholder="MM/DD/YYYY" maxlength="10"></div>
+      <div><div class="flbl">Hrs Per Shift</div><input class="finput" id="s-hrs" type="number" placeholder="10" step="1" min="1" value="10" inputmode="numeric"></div>
+    </div>
+    <div class="s-err" id="s-err"></div>
+    <button class="s-btn" onclick="doSetup()">BUILD MY SCHEDULE</button>
+    <div class="s-hint">All data stays on your device only. Nothing is sent anywhere.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="tb-brand">Shift<span>.</span>Sync</div>
+    <div class="topnav">
+      <button class="tnav-btn active" id="tn-dash" onclick="go('dash')">Home</button>
+      <button class="tnav-btn" id="tn-cal"  onclick="go('cal')">Calendar</button>
+      <button class="tnav-btn" id="tn-hol"  onclick="go('hol')">Holidays</button>
+      <button class="tnav-btn" id="tn-rpt"  onclick="go('rpt')">Optimizer</button>
+    </div>
+    <div class="tb-right">
+      <div class="pto-pill">PTO <b id="nav-bal">-</b></div>
+      <button class="reset-btn" title="Reset" onclick="if(confirm('Reset all data?')){localStorage.clear();location.reload()}">&#9881;</button>
+    </div>
+  </div>
+  <div class="scroll" id="scroll">
+
+    <!-- HOME -->
+    <div class="page on" id="pg-dash">
+      <div style="padding-top:14px">
+        <div class="dgrid" id="dcards"></div>
+        <div class="cfg-box">
+          <div class="cfg-title">Update PTO Balance</div>
+          <div class="cfg-grid">
+            <div class="cf"><label>Balance (hrs)</label><input class="finput-light" id="i-bal" type="number" step="0.1" min="0" inputmode="decimal"></div>
+            <div class="cf"><label>Per Paycheck (hrs)</label><input class="finput-light" id="i-acc" type="number" step="0.1" min="0" inputmode="decimal"></div>
+            <div class="cf"><label>Next Pay Date</label><input class="finput-light" id="i-pay" type="text" placeholder="MM/DD/YYYY" maxlength="10"></div>
+            <div class="cf"><label>Hrs Per Shift</label><input class="finput-light" id="i-hrs" type="number" step="1" min="1" inputmode="numeric"></div>
+          </div>
+          <button class="save-btn" onclick="savePTO()">SAVE</button>
+          <div class="saved-msg" id="saved-msg"></div>
+        </div>
+        <div class="sec-title">Upcoming</div>
+        <div class="up-list" id="upcoming"></div>
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div class="page" id="pg-cal">
+      <div style="padding-top:14px">
+        <div class="yr-row" id="yr-row"></div>
+        <div class="cal-leg">
+          <div class="leg"><div class="leg-dot" style="background:var(--navy)"></div>4-Day Wknd</div>
+          <div class="leg"><div class="leg-dot" style="background:#c8d8e8"></div>Rolling Off</div>
+          <div class="leg"><div class="leg-dot" style="background:var(--gold-dim);outline:2px solid var(--gold);outline-offset:-2px"></div>Holiday Off</div>
+          <div class="leg"><div class="leg-dot" style="background:#f8e8e8;outline:2px solid #e08080;outline-offset:-2px"></div>Holiday Worked</div>
+          <div class="leg"><div class="leg-dot" style="outline:2px dashed var(--gold);background:#fff"></div>Payday</div>
+        </div>
+        <div class="months" id="cal-grid"></div>
+      </div>
+    </div>
+
+    <!-- HOLIDAYS -->
+    <div class="page" id="pg-hol">
+      <div style="padding-top:14px">
+        <div class="sec-title">Holidays</div>
+        <div class="sec-sub">All holidays are days off by default. Tap <b>I Worked This</b> on any holiday you had to work — those will show differently on your calendar and won't count as free days in the optimizer.</div>
+        <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+          <div class="hol-sel-wrap" style="max-width:140px">
+            <div class="hol-sel-lbl">Filter Year</div>
+            <select class="hol-sel" id="hol-yr-filter" onchange="renderHolList()">
+              <option value="all">All Years</option>
+            </select>
+          </div>
+        </div>
+        <div class="hol-list-wrap" id="hol-list"></div>
+      </div>
+    </div>
+
+    <!-- OPTIMIZER -->
+    <div class="page" id="pg-rpt">
+      <div style="padding-top:14px">
+        <div class="sec-title">PTO Optimizer</div>
+        <div class="sec-sub">Pick a strategy below. The optimizer finds your best upcoming windows — holidays and rolling days off are already counted as free, so you spend the minimum PTO.</div>
+        <div style="margin-bottom:14px">
+          <div style="font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px">Strategy</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px" id="strategy-btns">
+            <button class="strat-btn active" data-strat="free"    onclick="setStrat(this)">&#9733; Free Days Only</button>
+            <button class="strat-btn"         data-strat="long"    onclick="setStrat(this)">&#127965; Long Weekend (3 days)</button>
+            <button class="strat-btn"         data-strat="extend"  onclick="setStrat(this)">&#128170; Weekend Extender (1 PTO)</button>
+            <button class="strat-btn"         data-strat="four"    onclick="setStrat(this)">&#11088; 4-Day Weekend</button>
+            <button class="strat-btn"         data-strat="bridge"  onclick="setStrat(this)">&#128279; 4-Day + Bridge to Next Wknd</button>
+            <button class="strat-btn"         data-strat="week"    onclick="setStrat(this)">&#128197; Full Week (Mon&ndash;Sun)</button>
+            <button class="strat-btn"         data-strat="maxstr"  onclick="setStrat(this)">&#128640; Max Stretch (10&ndash;12 days)</button>
+            <button class="strat-btn"         data-strat="holbr"   onclick="setStrat(this)">&#127881; Holiday Bridge</button>
+            <button class="strat-btn"         data-strat="custom"  onclick="setStrat(this)">&#9881; Custom Days</button>
+          </div>
+        </div>
+        <div id="hide-natural-row" style="display:none;margin-bottom:12px">
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:10px">
+            <input type="checkbox" id="opt-hide-natural" style="width:18px;height:18px;cursor:pointer" checked>
+            <span style="font-size:13px;color:var(--text);line-height:1.35"><b>Hide natural 4-day weekends</b><br><span style="font-size:12px;color:var(--muted)">These are already on your calendar (0 PTO). Uncheck to isolate and view them.</span></span>
+          </label>
+        </div>
+        <div id="custom-days-row" style="display:none;margin-bottom:12px">
+          <div style="font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin-bottom:6px">Total Days Off</div>
+          <select class="opt-sel" id="opt-days" style="max-width:180px">
+            <option value="1">1 day</option><option value="2">2 days</option>
+            <option value="3">3 days</option><option value="4">4 days</option>
+            <option value="5">5 days</option><option value="6">6 days</option>
+            <option value="7">7 days</option><option value="8">8 days</option>
+            <option value="9">9 days</option><option value="10">10 days</option>
+            <option value="11">11 days</option><option value="12">12 days</option>
+            <option value="13">13 days</option><option value="14">14 days</option>
+          </select>
+        </div>
+        <button class="run-btn" style="width:100%;margin-bottom:14px" onclick="runOptimizer()">&#9654; FIND BEST WINDOWS</button>
+        <div id="rpt-out"></div>
+      </div>
+    </div>
+
+  </div><!-- /scroll -->
+  <div class="tabs">
+    <button class="tab active" id="tab-dash" onclick="go('dash')"><div class="tab-icon">&#127968;</div><div class="tab-lbl">Home</div></button>
+    <button class="tab" id="tab-cal"  onclick="go('cal')"><div class="tab-icon">&#128197;</div><div class="tab-lbl">Calendar</div></button>
+    <button class="tab" id="tab-hol"  onclick="go('hol')"><div class="tab-icon">&#127881;</div><div class="tab-lbl">Holidays</div></button>
+    <button class="tab" id="tab-rpt"  onclick="go('rpt')"><div class="tab-icon">&#128202;</div><div class="tab-lbl">Optimizer</div></button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONSTANTS ────────────────────────────────────────────────────
+var MN   = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+var MS   = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var DOW  = ["Su","Mo","Tu","We","Th","Fr","Sa"];
+var DNAM = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+// Master holiday list: n=name, m=month(1-based), d=day
+var HOL_DEFS = [
+  {n:"New Year's Day",    m:1,  d:1},
+  {n:"Memorial Day",      m:null, d:null, calc:"memday"},
+  {n:"Independence Day",  m:7,  d:4},
+  {n:"Labor Day",         m:null, d:null, calc:"labday"},
+  {n:"Thanksgiving",      m:null, d:null, calc:"thanksgiving"},
+  {n:"Black Friday",      m:null, d:null, calc:"blackfriday"},
+  {n:"Christmas Day",     m:12, d:25}
+];
+
+function calcHolDate(hdef, year) {
+  if (hdef.calc === "memday") {
+    // Last Monday in May
+    var d = new Date(year, 4, 31);
+    while (d.getDay() !== 1) d.setDate(d.getDate()-1);
+    return toISO(d);
+  }
+  if (hdef.calc === "labday") {
+    // First Monday in September
+    var d = new Date(year, 8, 1);
+    while (d.getDay() !== 1) d.setDate(d.getDate()+1);
+    return toISO(d);
+  }
+  if (hdef.calc === "thanksgiving") {
+    // Fourth Thursday in November
+    var d = new Date(year, 10, 1), count = 0;
+    while (count < 4) { if (d.getDay() === 4) count++; if (count < 4) d.setDate(d.getDate()+1); }
+    return toISO(d);
+  }
+  if (hdef.calc === "blackfriday") {
+    // Day after Thanksgiving
+    var d = new Date(year, 10, 1), count = 0;
+    while (count < 4) { if (d.getDay() === 4) count++; if (count < 4) d.setDate(d.getDate()+1); }
+    d.setDate(d.getDate()+1);
+    return toISO(d);
+  }
+  return year+'-'+pad2(hdef.m)+'-'+pad2(hdef.d);
+}
+
+// ── STORAGE ──────────────────────────────────────────────────────
+function ld(k,d){try{var v=localStorage.getItem('ss_'+k);return v!==null?JSON.parse(v):d;}catch(e){return d;}}
+function sv(k,v){localStorage.setItem('ss_'+k,JSON.stringify(v));}
+
+// S.worked = array of ISO strings the user worked (holidays not worked = days off)
+var S = {
+  monday:  ld('monday',  null),
+  bal:     ld('bal',     0),
+  acc:     ld('acc',     5.3),
+  pay:     ld('pay',     null),
+  hrs:     ld('hrs',     10),
+  worked:  ld('worked',  [])  // ISO dates of holidays they had to work
+};
+function saveS(){['monday','bal','acc','pay','hrs','worked'].forEach(function(k){sv(k,S[k]);});}
+
+// Build the full holiday list for all relevant years
+function getAllHols(){
+  var list=[];
+  var thisYear=new Date().getFullYear();
+  for(var y=thisYear;y<=thisYear+4;y++){
+    HOL_DEFS.forEach(function(hdef){
+      list.push({iso:calcHolDate(hdef,y),name:hdef.n,year:y});
+    });
+  }
+  return list.sort(function(a,b){return a.iso.localeCompare(b.iso);});
+}
+
+// Set of holiday ISOs the user did NOT work (= days off = free in optimizer)
+function offHolSet(){
+  var s=new Set();
+  getAllHols().forEach(function(h){
+    if(S.worked.indexOf(h.iso)===-1)s.add(h.iso);
+  });
+  return s;
+}
+// Set of holiday ISOs the user worked
+function workedHolSet(){
+  return new Set(S.worked);
+}
+
+// ── SCHEDULE DATA ─────────────────────────────────────────────────
+var OFF_SET  = new Set();
+var FD_SET   = new Set();
+var FD_LIST  = [];
+var PAYS_SET = new Set();
+var PAYS_ARR = [];
+var CAL_YEARS = [];
+
+function buildSchedule() {
+  OFF_SET=new Set(); FD_SET=new Set(); FD_LIST=[]; PAYS_SET=new Set(); PAYS_ARR=[];
+  if (!S.monday) return;
+  var anchor = new Date(S.monday+'T12:00:00');
+  if (anchor.getDay() !== 1) return;
+
+  var END  = new Date('2031-12-31');
+  var BACK = new Date('2023-01-01');
+
+  // Rolling schedule: Mon->Tue->Wed->Thu->Fri(+Mon)->Tue->...
+  // From any Mon/Tue/Wed/Thu: next off = +8 days
+  // From Fri: next off = +3 days (Mon, creating 4-day weekend), then +8 (Tue)
+  var cur = new Date(anchor);
+  var safety = 0;
+  while (cur < END && safety++ < 10000) {
+    var iso = toISO(cur);
+    OFF_SET.add(iso);
+    if (cur.getDay() === 5) {
+      // Friday off: Mon is also off (4-day weekend)
+      var s = toISO(addD(cur,1)), su = toISO(addD(cur,2)), m = toISO(addD(cur,3));
+      OFF_SET.add(m);
+      FD_SET.add(iso); FD_SET.add(s); FD_SET.add(su); FD_SET.add(m);
+      FD_LIST.push({fri:iso, sat:s, sun:su, mon:m});
+      cur = addD(cur, 11); // skip to Tuesday (3 to Mon + 8 more)
+    } else {
+      cur = addD(cur, 8);
+    }
+  }
+  FD_LIST.sort(function(a,b){return a.fri.localeCompare(b.fri);});
+
+  // Pay dates: bi-weekly from S.pay
+  if (S.pay) {
+    var p = new Date(S.pay+'T12:00:00');
+    while (p > BACK) p = addD(p,-14);
+    while (p < END)  { PAYS_SET.add(toISO(p)); p = addD(p,14); }
+    PAYS_ARR = Array.from(PAYS_SET).sort();
+  }
+
+  var y = anchor.getFullYear();
+  CAL_YEARS = [y, y+1, y+2, y+3, y+4];
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function pad2(n){return String(n).padStart(2,'0');}
+function toISO(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function addD(d,n){var r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function todayISO(){return toISO(new Date());}
+function fs(s){if(!s)return'-';var p=s.split('-');return MS[parseInt(p[1])-1]+' '+parseInt(p[2]);}
+function ff(s){if(!s)return'-';var p=s.split('-');return MS[parseInt(p[1])-1]+' '+parseInt(p[2])+', '+p[0];}
+function dim(y,m){return new Date(y,m,0).getDate();}
+function fdow(y,m){return new Date(y,m-1,1).getDay();}
+
+
+
+function projBal(asOf) {
+  if (!PAYS_ARR.length) return S.bal;
+  var t = todayISO();
+  var n = PAYS_ARR.filter(function(p){return p>t && p<=asOf;}).length;
+  return Math.round((S.bal + n*S.acc)*10)/10;
+}
+function checksUntil(asOf){
+  var t=todayISO();
+  return PAYS_ARR.filter(function(p){return p>t && p<=asOf;}).length;
+}
+
+function parseDate(val) {
+  if (!val) return null;
+  val = val.trim();
+  var parts = val.split('/');
+  if (parts.length !== 3) return null;
+  var mm=parts[0].trim(), dd=parts[1].trim(), yyyy=parts[2].trim();
+  if (yyyy.length !== 4) return null;
+  mm=mm.padStart(2,'0'); dd=dd.padStart(2,'0');
+  var iso = yyyy+'-'+mm+'-'+dd;
+  var d = new Date(iso+'T12:00:00');
+  if (isNaN(d.getTime())) return null;
+  if (toISO(d) !== iso) return null;
+  return iso;
+}
+function isoToInput(iso){var p=iso.split('-');return p[1]+'/'+p[2]+'/'+p[0];}
+function wireSlash(id){
+  var el=document.getElementById(id);
+  if(!el)return;
+  el.addEventListener('input',function(){
+    var digits=this.value.replace(/\D/g,'').slice(0,8);
+    var out='';
+    for(var i=0;i<digits.length;i++){if(i===2||i===4)out+='/';out+=digits[i];}
+    this.value=out;
+  });
+}
+function toast(msg,ok){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast on'+(ok?' ok':'');
+  setTimeout(function(){t.className='toast';},2200);
+}
+
+// ── SETUP ─────────────────────────────────────────────────────────
+function doSetup(){
+  var err=document.getElementById('s-err');
+  var monISO=parseDate(document.getElementById('s-mon').value);
+  if(!monISO){err.textContent='Monday date invalid — use MM/DD/YYYY';return;}
+  if(new Date(monISO+'T12:00:00').getDay()!==1){err.textContent='That is not a Monday';return;}
+  var payISO=parseDate(document.getElementById('s-pay').value);
+  if(document.getElementById('s-pay').value.trim()&&!payISO){err.textContent='Pay date invalid — use MM/DD/YYYY';return;}
+  err.textContent='';
+  S.monday=monISO;
+  S.bal=parseFloat(document.getElementById('s-bal').value)||0;
+  S.acc=parseFloat(document.getElementById('s-acc').value)||5.3;
+  S.pay=payISO||null;
+  S.hrs=parseFloat(document.getElementById('s-hrs').value)||10;
+  saveS();
+  document.getElementById('setup').style.display='none';
+  document.getElementById('app').classList.add('on');
+  buildSchedule();
+  initYrBtns();
+  populateHolDropdowns();
+  go('dash');
+}
+
+// ── NAV ───────────────────────────────────────────────────────────
+var curYr=0;
+var PAGES=['dash','cal','hol','rpt'];
+function go(page){
+  PAGES.forEach(function(p){
+    document.getElementById('pg-'+p).classList.toggle('on',p===page);
+    document.getElementById('tab-'+p).classList.toggle('active',p===page);
+    var tn=document.getElementById('tn-'+p);if(tn)tn.classList.toggle('active',p===page);
+  });
+  document.getElementById('scroll').scrollTop=0;
+  if(page==='cal')renderCal(CAL_YEARS[curYr]||new Date().getFullYear());
+  if(page==='hol')renderHolList();
+  if(page==='dash')renderDash();
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────
+function renderDash(){
+  var t=todayISO(), H=S.hrs;
+  var nextPay=PAYS_ARR.find(function(p){return p>t;})||null;
+  var nextOff=Array.from(OFF_SET).sort().find(function(d){return d>t;})||null;
+  var nextFD=FD_LIST.find(function(f){return f.fri>t;})||null;
+  var balAtFD=nextFD?projBal(nextFD.fri):S.bal;
+  var chks=nextFD?checksUntil(nextFD.fri):0;
+  document.getElementById('nav-bal').textContent=S.bal.toFixed(1)+'h';
+  document.getElementById('i-bal').value=S.bal;
+  document.getElementById('i-acc').value=S.acc;
+  document.getElementById('i-hrs').value=S.hrs;
+  if(S.pay)document.getElementById('i-pay').value=isoToInput(S.pay);
+
+  var cards=[
+    {l:'Current Balance',   v:S.bal.toFixed(1)+'h', s:Math.floor(S.bal/H)+' full days',  c:'navy'},
+    {l:'Per Paycheck',      v:S.acc+'h',             s:'Every 2 weeks',                   c:'navy'},
+    {l:'Next Payday',       v:nextPay?fs(nextPay):'-',s:nextPay?'+'+ S.acc+'h':'Set pay date',c:'gold',sm:1},
+    {l:'Next Day Off',      v:nextOff?fs(nextOff):'-',s:nextOff&&FD_SET.has(nextOff)?'4-Day Wknd':'Rolling Off',c:'navy',sm:1},
+    {l:'Bal at Next 4-Day', v:nextFD?balAtFD.toFixed(1)+'h':'-',s:nextFD?fs(nextFD.fri)+' (+'+chks+' checks)':'',c:'green',sm:1},
+    {l:'Holidays',          v:getAllHols().length,     s:S.worked.length+' worked this year',c:'navy'}
+  ];
+  document.getElementById('dcards').innerHTML=cards.map(function(c){
+    return '<div class="dc"><div class="dc-lbl">'+c.l+'</div><div class="dc-val '+c.c+(c.sm?' sm':'')+(c.c==='gold'?' gold':c.c==='green'?' green':'')+'" style="'+(c.sm?'font-size:18px':'')+'">'+c.v+'</div><div class="dc-sub">'+c.s+'</div></div>';
+  }).join('');
+
+  var upcoming=[];
+  FD_LIST.filter(function(f){return f.fri>t;}).slice(0,5).forEach(function(f){
+    var b=projBal(f.fri);
+    upcoming.push({cls:'fd',type:'4-Day Weekend',_d:f.fri,
+      date:fs(f.fri)+' \u2013 '+fs(f.mon),
+      desc:ff(f.fri)+' \u00b7 Proj. bal: '+b.toFixed(1)+'h ('+checksUntil(f.fri)+' checks)'});
+  });
+  var offHolsNow=offHolSet();
+  getAllHols().filter(function(h){return h.iso>t&&offHolsNow.has(h.iso);}).slice(0,4).forEach(function(h){
+    upcoming.push({cls:'hol',type:'Holiday Off',_d:h.iso,date:h.name,desc:ff(h.iso)});
+  });
+  upcoming.sort(function(a,b){return a._d.localeCompare(b._d);});
+  document.getElementById('upcoming').innerHTML=upcoming.slice(0,8).map(function(u){
+    return '<div class="uc '+u.cls+'"><div class="uc-dot"></div><div style="flex:1;min-width:0"><div class="uc-type">'+u.type+'</div><div class="uc-date">'+u.date+'</div><div class="uc-desc">'+u.desc+'</div></div></div>';
+  }).join('');
+}
+
+function savePTO(){
+  var payRaw=document.getElementById('i-pay').value.trim();
+  var payISO=payRaw?parseDate(payRaw):null;
+  if(payRaw&&!payISO){toast('Pay date invalid \u2014 use MM/DD/YYYY',false);return;}
+  S.bal=parseFloat(document.getElementById('i-bal').value)||0;
+  S.acc=parseFloat(document.getElementById('i-acc').value)||S.acc;
+  S.hrs=parseFloat(document.getElementById('i-hrs').value)||10;
+  if(payISO)S.pay=payISO;
+  saveS(); buildSchedule();
+  document.getElementById('nav-bal').textContent=S.bal.toFixed(1)+'h';
+  var m=document.getElementById('saved-msg');
+  m.textContent='Saved \u2713';setTimeout(function(){m.textContent='';},2000);
+  toast('Saved',true); renderDash();
+}
+
+// ── CALENDAR ──────────────────────────────────────────────────────
+function initYrBtns(){
+  var row=document.getElementById('yr-row');
+  row.innerHTML=CAL_YEARS.map(function(y,i){
+    return '<button class="yr-btn'+(i===0?' active':'')+'" onclick="setYr('+i+')">'+y+'</button>';
+  }).join('');
+}
+function setYr(i){
+  curYr=i;
+  document.querySelectorAll('.yr-btn').forEach(function(b,j){b.classList.toggle('active',j===i);});
+  renderCal(CAL_YEARS[i]);
+}
+function renderCal(year){
+  var offH=offHolSet(), wrkH=workedHolSet();
+  var html='';
+  for(var m=1;m<=12;m++){
+    html+='<div class="mcard">';
+    html+='<div class="mhdr"><span class="mhdr-name">'+MN[m-1]+'</span><span class="mhdr-yr">'+year+'</span></div>';
+    html+='<div class="dow-row">'+DOW.map(function(d){return '<div class="dow-c">'+d+'</div>';}).join('')+'</div>';
+    html+='<div class="days-grid">';
+    for(var e=0;e<fdow(year,m);e++)html+='<div class="day empty"></div>';
+    for(var d=1;d<=dim(year,m);d++){
+      var s=year+'-'+pad2(m)+'-'+pad2(d);
+      var is4=FD_SET.has(s),isOff=OFF_SET.has(s)&&!is4;
+      var isHolOff=offH.has(s),isHolWrk=wrkH.has(s),isPay=PAYS_SET.has(s);
+      var cls='work',lbl='';
+      if(is4){cls='fourday';lbl='4D';}
+      else if(isHolWrk){cls='worked-hol';lbl='W';}
+      else if(isHolOff){cls='holiday';lbl='H';}
+      else if(isOff){cls='rolling';lbl='.';}
+      html+='<div class="day '+cls+(isPay?' payday':'')+'">'
+           +d+(lbl?'<span class="dlbl">'+lbl+'</span>':'')
+           +(isPay&&!lbl?'<span class="dlbl" style="color:var(--gold);font-size:8px">$</span>':'')
+           +'</div>';
+    }
+    html+='</div></div>';
+  }
+  document.getElementById('cal-grid').innerHTML=html;
+}
+
+// ── HOLIDAYS ──────────────────────────────────────────────────────
+function populateHolDropdowns(){
+  var yrFilter=document.getElementById('hol-yr-filter');
+  if(!yrFilter)return;
+  var thisYear=new Date().getFullYear();
+  yrFilter.innerHTML='<option value="all">All Years</option>';
+  for(var y=thisYear;y<=thisYear+4;y++){
+    var opt=document.createElement('option');
+    opt.value=y;opt.textContent=y;yrFilter.appendChild(opt);
+  }
+}
+
+function toggleWorked(iso){
+  var idx=S.worked.indexOf(iso);
+  if(idx>=0)S.worked.splice(idx,1);
+  else S.worked.push(iso);
+  saveS();
+  renderHolList();
+  if(CAL_YEARS[curYr])renderCal(CAL_YEARS[curYr]);
+  renderDash();
+  toast(idx>=0?'Marked as day off':'Marked as worked — not free in optimizer',true);
+}
+
+function renderHolList(){
+  var el=document.getElementById('hol-list');
+  if(!el)return;
+  var yrFilter=document.getElementById('hol-yr-filter');
+  var filterYr=yrFilter?yrFilter.value:'all';
+  var allHols=getAllHols();
+  var filtered=filterYr==='all'?allHols:allHols.filter(function(h){return h.year===parseInt(filterYr);});
+  var workedSet=new Set(S.worked);
+  var byYear={};
+  filtered.forEach(function(h){if(!byYear[h.year])byYear[h.year]=[];byYear[h.year].push(h);});
+  var html='';
+  Object.keys(byYear).sort().forEach(function(yr){
+    var ywrked=byYear[yr].filter(function(h){return workedSet.has(h.iso);}).length;
+    html+='<div style="font-family:Montserrat,sans-serif;font-weight:800;font-size:16px;color:var(--navy);border-bottom:2px solid var(--border);padding-bottom:6px;margin:16px 0 8px;display:flex;justify-content:space-between;align-items:baseline">'
+      +'<span>'+yr+'</span>'
+      +'<span style="font-size:12px;color:var(--muted);font-weight:600">'+ywrked+' worked</span>'
+      +'</div>';
+    html+='<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:4px">';
+    byYear[yr].forEach(function(h){
+      var worked=workedSet.has(h.iso);
+      html+='<div class="hol-item '+(worked?'worked':'off')+'">'
+        +'<div class="hol-icon '+(worked?'worked':'off')+'">'+(worked?'&#128295;':'&#127881;')+'</div>'
+        +'<div class="hol-info">'
+          +'<div class="hol-name">'+h.name+'</div>'
+          +'<div class="hol-date-str">'+ff(h.iso)+'</div>'
+          +'<div class="hol-status '+(worked?'worked':'off')+'">'
+            +(worked?'You worked this — not counted as free':'Day off — free in optimizer')
+          +'</div>'
+        +'</div>'
+        +'<button class="hol-toggle '+(worked?'worked':'off')+'" data-iso="'+h.iso+'" onclick="toggleWorked(this.getAttribute(\"data-iso\"))">'+(worked?'&#10003;&nbsp;Worked':'Mark Worked')+'</button>'
+        +'</div>';
+    });
+    html+='</div>';
+  });
+  el.innerHTML=html;
+}
+
+// ── OPTIMIZER ─────────────────────────────────────────────────────
+var currentStrat = 'free';
+
+function setStrat(btn) {
+  document.querySelectorAll('.strat-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  currentStrat = btn.getAttribute('data-strat');
+  var customRow = document.getElementById('custom-days-row');
+  if (customRow) customRow.style.display = currentStrat === 'custom' ? 'block' : 'none';
+  var hideRow = document.getElementById('hide-natural-row');
+  if (hideRow) hideRow.style.display = currentStrat === 'four' ? 'block' : 'none';
+}
+
+// Strategy definitions: each returns an array of {start, end, label}
+// describing the window shape relative to reference dates
+function getWindows(strat, t, H) {
+  var windows = [];
+  var offH = offHolSet();
+
+  if (strat === 'free') {
+    // Any window of 1-14 days with 0 PTO cost
+    var scan = addD(new Date(t+'T12:00:00'), 1);
+    var scanEnd = addD(scan, 730);
+    while (scan < scanEnd) {
+      var iso = toISO(scan);
+      var dow = scan.getDay();
+      // Quick check: only start on a Mon (rolling off, or start of free stretch)
+      if (OFF_SET.has(iso) || offH.has(iso) || dow === 6) {
+        // Try to find the longest free stretch starting here
+        var cur = new Date(scan), ptoCost = 0, len = 0, maxLen = 0;
+        while (ptoCost === 0 && len < 14) {
+          var diso = toISO(cur);
+          var ddow = cur.getDay();
+          var free = ddow===0||ddow===6||OFF_SET.has(diso)||FD_SET.has(diso)||offH.has(diso);
+          if (!free) break;
+          len++;
+          maxLen = len;
+          cur = addD(cur, 1);
+        }
+        if (maxLen >= 2) {
+          windows.push({start:iso, end:toISO(addD(scan, maxLen-1)), want:maxLen, label:'Free: '+maxLen+' days'});
+        }
+      }
+      scan = addD(scan, 1);
+    }
+  } else if (strat === 'long') {
+    // Sat-Mon or Thu/Fri-Sun: 3-day long weekends (1 PTO day)
+    // Option A: Add Fri before a weekend (if rolling off or cheap)
+    // Option B: Add Mon after a weekend (if rolling off or cheap)
+    var scan = addD(new Date(t+'T12:00:00'), 1);
+    var scanEnd = addD(scan, 365);
+    while (scan < scanEnd) {
+      var dow = scan.getDay();
+      if (dow === 4) { // Thursday: Thu-Sun = 4 days if Thu is free, else Fri-Mon
+        var thu = toISO(scan), fri = toISO(addD(scan,1)), sat = toISO(addD(scan,2)), sun = toISO(addD(scan,3)), mon = toISO(addD(scan,4));
+        if (OFF_SET.has(thu)||offH.has(thu)||FD_SET.has(thu)) {
+          windows.push({start:thu,end:sun,want:4,label:'Thu-Sun (Thu free)'});
+        } else if (OFF_SET.has(fri)||offH.has(fri)||FD_SET.has(fri)) {
+          windows.push({start:fri,end:mon,want:4,label:'Fri-Mon (Fri free)'});
+        } else {
+          windows.push({start:fri,end:sun,want:3,label:'Fri-Sun (+1 PTO)'});
+          windows.push({start:sat,end:mon,want:3,label:'Sat-Mon (+1 PTO)'});
+        }
+      }
+      scan = addD(scan, 1);
+    }
+  } else if (strat === 'extend') {
+    // Weekend Extender: weeks where Tue or Thu is the rolling day off.
+    // Thu off  -> take Fri PTO -> Thu/Fri/Sat/Sun = 4-day weekend (1 PTO day)
+    // Tue off  -> take Mon PTO -> Sat/Sun/Mon/Tue = 4-day weekend (1 PTO day)
+    var scan = addD(new Date(t+'T12:00:00'), 1);
+    var scanEnd = addD(scan, 365);
+    while (scan < scanEnd) {
+      var iso = toISO(scan);
+      var dow = scan.getDay();
+      if (OFF_SET.has(iso) && !FD_SET.has(iso)) {
+        if (dow === 4) {
+          // Thursday off -> Thu through Sun, need Fri PTO
+          var sunISO = toISO(addD(scan, 3));
+          windows.push({start:iso, end:sunISO, want:4, label:'Thu Off + Fri PTO'});
+        } else if (dow === 2) {
+          // Tuesday off -> Sat through Tue, need Mon PTO
+          var satStart = addD(scan, -3);
+          var tueISO = iso;
+          windows.push({start:toISO(satStart), end:tueISO, want:4, label:'Sat\u2013Tue + Mon PTO'});
+        }
+      }
+      scan = addD(scan, 1);
+    }
+  } else if (strat === 'four') {
+    // Exactly the 4-day weekends. If the hide-natural toggle is checked,
+    // suppress them here (they're already on the calendar as 0-PTO days).
+    var hideNatural = true;
+    var hideEl = document.getElementById('opt-hide-natural');
+    if (hideEl) hideNatural = !!hideEl.checked;
+    if (!hideNatural) {
+      FD_LIST.filter(function(f){return f.fri>t;}).forEach(function(f){
+        windows.push({start:f.fri, end:f.mon, want:4, label:'4-Day Weekend'});
+      });
+    }
+  } else if (strat === 'bridge') {
+    // 4-day weekend + bridge Mon-Thu after it to reach the following weekend
+    // Fri+Sat+Sun+Mon(free) + Tue+Wed+Thu(PTO) + Fri(rolling or PTO) + Sat+Sun = 9-10 days
+    FD_LIST.filter(function(f){return f.fri>t;}).forEach(function(f){
+      // Extend from fri to the Sunday after Mon
+      var mon = new Date(f.mon+'T12:00:00');
+      var nextSun = addD(mon, 6); // Sun 6 days after Mon
+      windows.push({start:f.fri, end:toISO(nextSun), want:10, label:'4-Day + Bridge'});
+    });
+  } else if (strat === 'week') {
+    // Mon-Sun full week: find Mondays
+    var scan = addD(new Date(t+'T12:00:00'), 1);
+    var scanEnd = addD(scan, 365);
+    while (scan < scanEnd) {
+      if (scan.getDay() === 1) {
+        var sun = toISO(addD(scan, 6));
+        windows.push({start:toISO(scan), end:sun, want:7, label:'Full Week'});
+        scan = addD(scan, 7);
+      } else {
+        scan = addD(scan, 1);
+      }
+    }
+  } else if (strat === 'maxstr') {
+    // Max stretch: Fri before 4-day weekend through Sun after
+    // Thu(before) + Fri+Sat+Sun+Mon(4-day) + Tue+Wed+Thu + Fri+Sat+Sun = 12 days
+    FD_LIST.filter(function(f){return f.fri>t;}).forEach(function(f){
+      var fDate = new Date(f.fri+'T12:00:00');
+      var strStart = toISO(addD(fDate, -1)); // Thu before
+      var mon = new Date(f.mon+'T12:00:00');
+      var strEnd = toISO(addD(mon, 6));      // Sun after Mon
+      windows.push({start:strStart, end:strEnd, want:12, label:'Max Stretch'});
+    });
+  } else if (strat === 'holbr') {
+    // Holiday bridge: for each upcoming holiday off, find the window that
+    // connects it to the nearest weekend with minimum PTO
+    var hols = getAllHols().filter(function(h){return h.iso>t && S.worked.indexOf(h.iso)===-1;});
+    hols.forEach(function(h){
+      var hDate = new Date(h.iso+'T12:00:00');
+      var dow = hDate.getDay();
+      // Bridge to prior weekend
+      if (dow >= 2 && dow <= 4) { // Tue-Thu: bridge back to Sat
+        var start = toISO(addD(hDate, -(dow-6+7)%7 - (dow>0?dow-1:6)));
+        // Simpler: just go back to prior Sat
+        var backSat = new Date(hDate);
+        while(backSat.getDay()!==6)backSat=addD(backSat,-1);
+        var fwdSun = new Date(hDate);
+        while(fwdSun.getDay()!==0)fwdSun=addD(fwdSun,1);
+        var days = Math.round((fwdSun - backSat)/(86400000))+1;
+        windows.push({start:toISO(backSat),end:toISO(fwdSun),want:days,label:h.name+' Bridge'});
+      } else if (dow === 1) { // Monday holiday: Sat-Mon = 3 days free
+        var sat = toISO(addD(hDate,-2));
+        windows.push({start:sat,end:h.iso,want:3,label:h.name+' (Mon)'});
+      } else if (dow === 5) { // Friday holiday: Fri-Sun = 3 days free
+        var sun = toISO(addD(hDate,2));
+        windows.push({start:h.iso,end:sun,want:3,label:h.name+' (Fri)'});
+      }
+    });
+  } else {
+    // Custom: scan all windows of selected size
+    var want = parseInt(document.getElementById('opt-days').value)||4;
+    var scan = addD(new Date(t+'T12:00:00'), 1);
+    var scanEnd = addD(scan, 730);
+    while (scan < scanEnd) {
+      windows.push({start:toISO(scan), end:toISO(addD(scan,want-1)), want:want, label:want+'-Day Window'});
+      scan = addD(scan, 1);
+    }
+  }
+  return windows;
+}
+
+function runOptimizer() {
+  var out = document.getElementById('rpt-out');
+  var H = S.hrs, t = todayISO();
+  var offH = offHolSet();
+  var strat = currentStrat;
+
+  if (!FD_LIST.length) {
+    out.innerHTML = '<div class="warn-box">No schedule built. Please complete setup first.</div>';
+    return;
+  }
+
+  // Classify each day
+  function classify(iso) {
+    var dow = new Date(iso+'T12:00:00').getDay();
+    if (dow===0||dow===6)        return {type:'wknd', free:true,  hol:false};
+    if (FD_SET.has(iso))         return {type:'fd',   free:true,  hol:false};
+    if (offH.has(iso)) {
+      var hobj = getAllHols().find(function(h){return h.iso===iso;})||{name:'Holiday'};
+      return {type:'hol', free:true, hol:true, name:hobj.name};
+    }
+    if (OFF_SET.has(iso))        return {type:'roll', free:true,  hol:false};
+    return                              {type:'pto',  free:false, hol:false};
+  }
+
+  // Score and evaluate a window
+  function evalWindow(w) {
+    var ptoCost=0, freeDays=0, holSaves=0, hasFD=false, days=[];
+    var cur = new Date(w.start+'T12:00:00');
+    for (var di=0; di<w.want; di++) {
+      var iso = toISO(cur);
+      var cl = classify(iso);
+      days.push({iso:iso, cl:cl});
+      if (cl.free) {
+        freeDays++;
+        if (cl.type==='fd') hasFD=true;
+        if (cl.hol) holSaves++;
+      } else {
+        ptoCost += H;
+      }
+      cur = addD(cur, 1);
+    }
+    var nearFD = FD_LIST.find(function(f){return f.fri>=w.start;})||FD_LIST[FD_LIST.length-1];
+    var projB = nearFD ? projBal(nearFD.fri) : S.bal;
+    var canAfford = ptoCost <= projB;
+    var score = freeDays*1000 - (ptoCost/H)*100 + holSaves*50 + (hasFD?200:0);
+    return {
+      start:w.start, end:w.end, want:w.want, label:w.label,
+      ptoCost:ptoCost, ptoDays:ptoCost/H,
+      freeDays:freeDays, holSaves:holSaves,
+      hasFD:hasFD, canAfford:canAfford,
+      projB:projB, score:score, days:days,
+      nearFri: nearFD?nearFD.fri:null
+    };
+  }
+
+  // Get candidate windows for strategy
+  var raw = getWindows(strat, t, H);
+
+  // Evaluate all
+  var results = raw.map(evalWindow);
+
+  // Filter: must have at least 1 natural free weekday
+  results = results.filter(function(r){
+    return r.days.some(function(x){
+      if(!x.cl.free)return false;
+      var dw=new Date(x.iso+'T12:00:00').getDay();
+      return dw!==0&&dw!==6;
+    });
+  });
+
+  // Sort: affordable first, then score desc
+  results.sort(function(a,b){
+    if(a.canAfford!==b.canAfford)return a.canAfford?-1:1;
+    return b.score-a.score;
+  });
+
+  // Deduplicate
+  var deduped=[], used=new Set();
+  for(var ri=0;ri<results.length&&deduped.length<10;ri++){
+    var r=results[ri];
+    var clash=false;
+    var c2=new Date(r.start+'T12:00:00');
+    for(var oi=0;oi<r.want;oi++){if(used.has(toISO(c2))){clash=true;break;}c2=addD(c2,1);}
+    if(!clash){
+      deduped.push(r);
+      c2=new Date(r.start+'T12:00:00');
+      for(var ui=0;ui<r.want;ui++){used.add(toISO(c2));c2=addD(c2,1);}
+    }
+  }
+
+  if (!deduped.length) {
+    if (strat === 'four') {
+      var hideEl2 = document.getElementById('opt-hide-natural');
+      var isHidden = hideEl2 ? !!hideEl2.checked : true;
+      if (isHidden) {
+        out.innerHTML = '<div class="rpt-sum" style="grid-template-columns:1fr">'
+          +'<div class="rs"><div class="rs-lbl">Natural 4-Day Weekends</div>'
+          +'<div class="rs-val" style="font-size:14px;padding-top:4px;line-height:1.4">Already on your calendar &mdash; 0 PTO required</div></div>'
+          +'</div>'
+          +'<div class="warn-box" style="background:var(--blue-bg);border-color:var(--blue-border);color:var(--text)">'
+          +'Your rolling schedule already gives you a 4-day weekend every time Friday is off. These are shown as &#9733; on the Calendar tab and don\'t need optimization.<br><br>'
+          +'<b>To isolate and view them:</b> uncheck "Hide natural 4-day weekends" above.<br><br>'
+          +'<b>Tip:</b> To <i>extend</i> a nearby weekend using just 1 PTO day, try the <b>Weekend Extender</b> strategy &mdash; it finds weeks where Tuesday or Thursday is your rolling day off. Natural 4-days are still used as anchors for longer strategies like <b>Bridge</b> and <b>Max Stretch</b>.'
+          +'</div>';
+        return;
+      }
+    }
+    out.innerHTML = '<div class="warn-box">No windows found for this strategy. Try a different strategy or check your schedule setup.</div>';
+    return;
+  }
+
+  var affordable = deduped.filter(function(r){return r.canAfford;}).length;
+  var best = deduped[0];
+
+  var html = '<div class="rpt-sum">'
+    +'<div class="rs"><div class="rs-lbl">Strategy</div><div class="rs-val" style="font-size:14px;padding-top:4px">'+best.label+'</div></div>'
+    +'<div class="rs"><div class="rs-lbl">Balance Now</div><div class="rs-val">'+S.bal.toFixed(1)+'h</div></div>'
+    +'<div class="rs"><div class="rs-lbl">Can Afford</div><div class="rs-val green">'+affordable+'</div></div>'
+    +'<div class="rs"><div class="rs-lbl">Best Free Days</div><div class="rs-val gold">'+(best?best.freeDays:'-')+'</div></div>'
+    +'</div>';
+
+  if(offH.size===0) html+='<div class="warn-box">Tip: Mark your holidays as worked on the Holidays tab — unworked holidays count as free days.</div>';
+
+  html += '<div class="opp-list">';
+  deduped.forEach(function(r, idx){
+    var isFirst = idx===0&&r.canAfford;
+    var headCls = isFirst?'opp-head best':'opp-head';
+    var oppCls  = isFirst?'opp best':r.canAfford?'opp good':'opp cant';
+    var chks    = r.nearFri?checksUntil(r.nearFri):0;
+    var savedHrs = r.holSaves*H;
+    var ptoValCls = r.ptoCost===0?'free':r.ptoDays<=1?'':'gold';
+
+    var dayHtml = r.days.map(function(x){
+      var dow=DNAM[new Date(x.iso+'T12:00:00').getDay()];
+      var icon,reason,cls;
+      if(x.cl.type==='pto')       {icon='&#9201;';cls='pto-use';  reason='Use PTO — costs '+H+'h';}
+      else if(x.cl.type==='fd')   {icon='&#9733;';cls='fd';       reason='4-Day Weekend — paid, no PTO';}
+      else if(x.cl.type==='hol')  {icon='&#127881;';cls='free';   reason=(x.cl.name)+' — SAVES '+H+'h PTO';}
+      else if(x.cl.type==='roll') {icon='&#10003;';cls='free';    reason='Rolling day off — no PTO needed';}
+      else                        {icon='–';  cls='wknd';    reason='Weekend — free';}
+      return '<div class="opp-day">'
+        +'<div class="opp-dow">'+dow+'</div>'
+        +'<div class="opp-dname">'+fs(x.iso)+'</div>'
+        +'<div class="opp-icon">'+icon+'</div>'
+        +'<div class="opp-reason '+cls+'">'+reason+'</div>'
+        +'</div>';
+    }).join('');
+
+    var pills = '';
+    if(!r.canAfford)      pills+='<span class="pill need-more">Need '+((r.ptoCost-r.projB)/H).toFixed(1)+' more PTO days</span>';
+    else if(r.ptoCost===0) pills+='<span class="pill best">Completely Free</span>';
+    else if(r.ptoDays<=1)  pills+='<span class="pill good">'+r.ptoDays.toFixed(0)+' PTO Day</span>';
+    else                   pills+='<span class="pill ok">'+r.ptoDays.toFixed(0)+' PTO Days</span>';
+    pills+=' <span class="pill free-days">'+r.freeDays+' of '+r.want+' days free</span>';
+    if(r.holSaves>0)pills+=' <span class="pill hol-save">'+r.holSaves+' holiday saves '+savedHrs+'h</span>';
+    if(r.hasFD)     pills+=' <span class="pill neutral">Includes 4-Day Wknd</span>';
+
+    html += '<div class="'+oppCls+'">'
+      +'<div class="'+headCls+'">'
+        +'<div class="opp-title">'+fs(r.start)+' – '+fs(r.end)+', '+r.start.slice(0,4)+'</div>'
+        +'<div class="opp-num">#'+(idx+1)+'</div>'
+      +'</div>'
+      +'<div class="opp-math">'
+        +'<div class="opp-mc"><div class="opp-mc-lbl">PTO Used</div><div class="opp-mc-val '+ptoValCls+'">'+r.ptoDays.toFixed(0)+'d</div><div class="opp-mc-sub">'+r.ptoCost+'h of balance</div></div>'
+        +'<div class="opp-mc"><div class="opp-mc-val green">'+r.holSaves+'d</div><div class="opp-mc-lbl">Holiday Saves</div><div class="opp-mc-sub">'+savedHrs+'h free</div></div>'
+        +'<div class="opp-mc"><div class="opp-mc-lbl">Bal by then</div><div class="opp-mc-val">'+r.projB.toFixed(1)+'h</div><div class="opp-mc-sub">+'+chks+' checks</div></div>'
+      +'</div>'
+      +'<div class="opp-days">'+dayHtml+'</div>'
+      +'<div class="opp-foot">'+pills+'</div>'
+      +'</div>';
+  });
+  html += '</div>';
+  out.innerHTML = html;
+}
+
+// ── BOOT ─────────────────────────────────────────────────────────
+wireSlash('s-mon'); wireSlash('s-pay'); wireSlash('i-pay');
+
+if(S.monday){
+  document.getElementById('setup').style.display='none';
+  document.getElementById('app').classList.add('on');
+  buildSchedule();
+  initYrBtns();
+  populateHolDropdowns();
+  go('dash');
+}
+</script>
+</body>
+</html>
