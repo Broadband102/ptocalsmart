@@ -117,7 +117,7 @@ async function handleItinerary(request, env) {
   const prompt = buildPrompt(payload);
 
   const geminiUrl =
-    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' +
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' +
     env.GEMINI_KEY;
 
   try {
