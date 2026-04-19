@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -235,6 +234,71 @@ hr.div{border:none;border-top:1px solid rgba(255,255,255,.12)}
 .toast{position:fixed;bottom:calc(var(--tabh)+var(--safe-bot)+10px);left:50%;transform:translateX(-50%) translateY(14px);opacity:0;background:var(--navy);border-radius:20px;padding:8px 16px;font-size:13px;color:#fff;z-index:9998;transition:all .25s;pointer-events:none;white-space:nowrap;font-family:"Montserrat",sans-serif;font-weight:600}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.ok{background:var(--green)}
+
+/* TRIP PLANNER */
+.trip-intro{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.trip-intro h3{font-family:"Montserrat",sans-serif;font-size:15px;color:var(--navy);margin-bottom:4px}
+.trip-intro p{font-size:13px;color:var(--muted);line-height:1.5}
+.tp-form{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.tp-grp{margin-bottom:14px}
+.tp-grp:last-child{margin-bottom:0}
+.tp-lbl{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:7px;display:block}
+.tp-dates{background:var(--gold-dim);border:1.5px solid var(--gold);border-radius:10px;padding:10px 14px;font-family:"Montserrat",sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tp-dates .tp-clear{background:rgba(27,58,92,.1);border:none;color:var(--navy);padding:4px 10px;border-radius:14px;font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.06em}
+.tp-chips{display:flex;flex-wrap:wrap;gap:6px}
+.tp-chip{background:var(--white);border:1.5px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:18px;font-family:"Montserrat",sans-serif;font-weight:600;font-size:12px;cursor:pointer;transition:all .15s;user-select:none}
+.tp-chip:hover{border-color:var(--navy);color:var(--navy)}
+.tp-chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.tp-chip.on.gold{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.tp-results{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+@media(min-width:720px){.tp-results{grid-template-columns:1fr 1fr}}
+.tp-card{background:var(--white);border:2px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;flex-direction:column}
+.tp-card.top{border-color:var(--gold)}
+.tp-hdr{background:var(--navy);padding:14px 16px;color:#fff;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.tp-card.top .tp-hdr{background:var(--gold);color:var(--navy)}
+.tp-hdr-main{flex:1;min-width:0}
+.tp-name{font-family:"Montserrat",sans-serif;font-weight:800;font-size:17px;line-height:1.2;margin-bottom:3px}
+.tp-sub{font-size:12px;opacity:.85;font-weight:500}
+.tp-card.top .tp-sub{color:var(--navy);opacity:.75}
+.tp-match{background:rgba(255,255,255,.18);padding:4px 10px;border-radius:14px;font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;white-space:nowrap}
+.tp-card.top .tp-match{background:rgba(27,58,92,.15);color:var(--navy)}
+.tp-body{padding:12px 16px;flex:1;display:flex;flex-direction:column;gap:10px}
+.tp-blurb{font-size:13px;color:var(--text);line-height:1.5}
+.tp-why{background:var(--green-bg);border:1px solid var(--green-border);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--green);line-height:1.45}
+.tp-why b{color:var(--green);font-weight:700}
+.tp-events{background:#fff4e8;border:1.5px solid #f0c080;border-radius:8px;padding:9px 12px;font-size:12px;line-height:1.5}
+.tp-events-title{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#b87010;margin-bottom:5px}
+.tp-event-item{color:var(--text);margin-top:3px}
+.tp-event-item b{color:#b87010}
+.tp-event-note{color:var(--muted);font-size:11px}
+.tp-ai-btn{width:100%;background:linear-gradient(135deg,var(--navy) 0%,var(--navy3) 100%);color:#fff;border:none;padding:11px;border-radius:9px;font-family:"Montserrat",sans-serif;font-weight:700;font-size:13px;cursor:pointer;letter-spacing:.04em;transition:opacity .15s;margin-top:8px}
+.tp-ai-btn:hover{opacity:.92}
+.tp-ai-btn:disabled{opacity:.6;cursor:wait}
+.tp-ai-out{background:var(--white);border:2px solid var(--navy);border-radius:10px;padding:14px;margin-top:10px;font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap}
+.tp-ai-out-title{font-family:"Montserrat",sans-serif;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.tp-ai-err{background:var(--amber-bg);border:1.5px solid var(--amber-border);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:12px;color:var(--amber);line-height:1.45}
+.tp-ai-loading{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;padding:10px;justify-content:center}
+.tp-ai-spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--navy);border-radius:50%;animation:tpspin .8s linear infinite}
+@keyframes tpspin{to{transform:rotate(360deg)}}
+.tp-cost{display:flex;gap:8px;flex-wrap:wrap}
+.tp-cost-item{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 10px;flex:1;min-width:80px}
+.tp-cost-lbl{font-family:"Montserrat",sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:2px}
+.tp-cost-val{font-family:"Montserrat",sans-serif;font-weight:700;font-size:13px;color:var(--navy)}
+.tp-tags{display:flex;gap:5px;flex-wrap:wrap}
+.tp-tag{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:12px;background:var(--bg);color:var(--muted);border:1px solid var(--border)}
+.tp-tag.deal{background:var(--gold-dim);color:var(--amber);border-color:var(--gold)}
+.tp-tag.kid{background:var(--blue-bg);color:var(--navy);border-color:var(--blue-border)}
+.tp-tag.drive{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
+.tp-links{display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--border);background:var(--bg)}
+.tp-link{flex:1;min-width:110px;background:var(--white);border:1.5px solid var(--border);color:var(--navy);padding:8px 10px;border-radius:8px;font-family:"Montserrat",sans-serif;font-weight:700;font-size:12px;text-align:center;text-decoration:none;transition:all .15s;display:block}
+.tp-link:hover{border-color:var(--navy);background:var(--navy);color:#fff}
+.tp-link.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tp-link.primary:hover{background:var(--navy2)}
+.tp-empty{background:var(--amber-bg);border:1.5px solid var(--amber-border);border-radius:10px;padding:14px;text-align:center;color:var(--amber);font-size:13px;line-height:1.5}
+.tp-count{font-family:"Montserrat",sans-serif;font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
+.plan-btn{background:var(--gold);color:var(--navy);border:none;padding:7px 14px;border-radius:8px;font-family:"Montserrat",sans-serif;font-weight:700;font-size:11px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;transition:background .15s}
+.plan-btn:hover{background:var(--gold2)}
+.opp-plan-row{padding:10px 14px;border-top:1px solid var(--border);background:var(--bg);display:flex;justify-content:flex-end}
 </style>
 </head>
 <body>
@@ -274,6 +338,7 @@ hr.div{border:none;border-top:1px solid rgba(255,255,255,.12)}
       <button class="tnav-btn" id="tn-cal"  onclick="go('cal')">Calendar</button>
       <button class="tnav-btn" id="tn-hol"  onclick="go('hol')">Holidays</button>
       <button class="tnav-btn" id="tn-rpt"  onclick="go('rpt')">Optimizer</button>
+      <button class="tnav-btn" id="tn-trip" onclick="go('trip')">Trips</button>
     </div>
     <div class="tb-right">
       <div class="pto-pill">PTO <b id="nav-bal">-</b></div>
@@ -376,12 +441,72 @@ hr.div{border:none;border-top:1px solid rgba(255,255,255,.12)}
       </div>
     </div>
 
+    <!-- TRIP PLANNER -->
+    <div class="page" id="pg-trip">
+      <div style="padding-top:14px">
+        <div class="sec-title">Trip Planner</div>
+        <div class="sec-sub">Turn your time off into real trips. Pick a window from the Optimizer, or plan a trip for any future window here. Destinations are curated for Tulsa travelers &mdash; driving distance, flight connections, and seasonal tips all factored in.</div>
+
+        <div id="tp-dates-wrap"></div>
+
+        <div class="tp-form">
+          <div class="tp-grp">
+            <label class="tp-lbl">Trip Style (pick any)</label>
+            <div class="tp-chips" id="tp-styles">
+              <button class="tp-chip" data-v="beach" onclick="tpToggle(this)">&#127958; Beach</button>
+              <button class="tp-chip" data-v="mountains" onclick="tpToggle(this)">&#127956; Mountains</button>
+              <button class="tp-chip" data-v="city" onclick="tpToggle(this)">&#127961; City</button>
+              <button class="tp-chip" data-v="theme" onclick="tpToggle(this)">&#127904; Theme Park</button>
+              <button class="tp-chip" data-v="cruise" onclick="tpToggle(this)">&#128674; Cruise</button>
+              <button class="tp-chip" data-v="nature" onclick="tpToggle(this)">&#127794; National Park</button>
+              <button class="tp-chip" data-v="roadtrip" onclick="tpToggle(this)">&#128663; Road Trip</button>
+              <button class="tp-chip" data-v="foodie" onclick="tpToggle(this)">&#127831; Foodie</button>
+            </div>
+          </div>
+
+          <div class="tp-grp">
+            <label class="tp-lbl">Budget</label>
+            <div class="tp-chips" id="tp-budgets">
+              <button class="tp-chip" data-v="low" onclick="tpPick(this,'tp-budgets')">Under $500</button>
+              <button class="tp-chip on" data-v="mid" onclick="tpPick(this,'tp-budgets')">$500 &ndash; $1500</button>
+              <button class="tp-chip" data-v="high" onclick="tpPick(this,'tp-budgets')">$1500+</button>
+            </div>
+          </div>
+
+          <div class="tp-grp">
+            <label class="tp-lbl">Who&rsquo;s Going</label>
+            <div class="tp-chips" id="tp-group">
+              <button class="tp-chip" data-v="solo" onclick="tpPick(this,'tp-group')">Solo</button>
+              <button class="tp-chip on" data-v="couple" onclick="tpPick(this,'tp-group')">Couple</button>
+              <button class="tp-chip" data-v="kids" onclick="tpPick(this,'tp-group')">Family w/ Kids</button>
+              <button class="tp-chip" data-v="teens" onclick="tpPick(this,'tp-group')">Family w/ Teens</button>
+              <button class="tp-chip" data-v="group" onclick="tpPick(this,'tp-group')">Group of Friends</button>
+            </div>
+          </div>
+
+          <div class="tp-grp">
+            <label class="tp-lbl">Distance</label>
+            <div class="tp-chips" id="tp-dist">
+              <button class="tp-chip" data-v="drive" onclick="tpPick(this,'tp-dist')">Drive only (under 10 hrs)</button>
+              <button class="tp-chip on" data-v="any" onclick="tpPick(this,'tp-dist')">Any &mdash; drive or fly</button>
+              <button class="tp-chip" data-v="fly" onclick="tpPick(this,'tp-dist')">Flight preferred</button>
+            </div>
+          </div>
+
+          <button class="run-btn" style="width:100%" onclick="tpSearch()">&#128269; FIND TRIPS</button>
+        </div>
+
+        <div id="tp-out"></div>
+      </div>
+    </div>
+
   </div><!-- /scroll -->
   <div class="tabs">
     <button class="tab active" id="tab-dash" onclick="go('dash')"><div class="tab-icon">&#127968;</div><div class="tab-lbl">Home</div></button>
     <button class="tab" id="tab-cal"  onclick="go('cal')"><div class="tab-icon">&#128197;</div><div class="tab-lbl">Calendar</div></button>
     <button class="tab" id="tab-hol"  onclick="go('hol')"><div class="tab-icon">&#127881;</div><div class="tab-lbl">Holidays</div></button>
     <button class="tab" id="tab-rpt"  onclick="go('rpt')"><div class="tab-icon">&#128202;</div><div class="tab-lbl">Optimizer</div></button>
+    <button class="tab" id="tab-trip" onclick="go('trip')"><div class="tab-icon">&#9992;&#65039;</div><div class="tab-lbl">Trips</div></button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -602,7 +727,7 @@ function doSetup(){
 
 // ── NAV ───────────────────────────────────────────────────────────
 var curYr=0;
-var PAGES=['dash','cal','hol','rpt'];
+var PAGES=['dash','cal','hol','rpt','trip'];
 function go(page){
   PAGES.forEach(function(p){
     document.getElementById('pg-'+p).classList.toggle('on',p===page);
@@ -613,6 +738,7 @@ function go(page){
   if(page==='cal')renderCal(CAL_YEARS[curYr]||new Date().getFullYear());
   if(page==='hol')renderHolList();
   if(page==='dash')renderDash();
+  if(page==='trip')renderTripDates();
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────
@@ -1112,10 +1238,712 @@ function runOptimizer() {
       +'</div>'
       +'<div class="opp-days">'+dayHtml+'</div>'
       +'<div class="opp-foot">'+pills+'</div>'
+      +'<div class="opp-plan-row"><button class="plan-btn" onclick="planTripFromWindow(\''+r.start+'\',\''+r.end+'\')">&#9992;&#65039; Plan This Trip</button></div>'
       +'</div>';
   });
   html += '</div>';
   out.innerHTML = html;
+}
+
+// ── TRIP PLANNER ─────────────────────────────────────────────────
+// Curated destination database. Tulsa-aware: drive hours from TUL,
+// seasonal sweet spots, local knowledge baked in.
+// To add a destination, copy an entry and edit. No code changes required.
+var TPS = { // selected prefs state
+  styles: [],
+  budget: 'mid',
+  group: 'couple',
+  dist: 'any',
+  startISO: null,
+  endISO: null
+};
+
+var DESTS = [
+  // ── DRIVABLE FROM TULSA (under 10 hrs) ──
+  { id:'hotsprings', name:'Hot Springs, AR', region:'Arkansas',
+    type:['nature','roadtrip','foodie'], driveHours:4, airport:null,
+    budget:['low','mid'], groups:['solo','couple','kids','teens','group'],
+    best:[3,4,5,9,10,11], avoid:[7,8], value:[2,3,11,12],
+    blurb:'Historic spa town with bathhouses, hiking in Hot Springs National Park, and one of the best small-town food scenes in the region. Easy weekend escape.',
+    costNights:[95,160], costMeals:[35,60],
+    tips:{ 9:'Best month — warm days, cool nights, leaves starting to turn.',
+           10:'Peak fall color mid-to-late month. Book early.',
+           2:'Quietest season, lowest hotel rates.' },
+    events:[
+      { month:1, name:'Hot Springs Documentary Film Fest', note:'Late January, indie film crowd' },
+      { month:3, name:'First Ever St. Patrick\'s Day Parade', note:'March 17, smallest official parade in the world' },
+      { month:10, name:'Hot Springs Jazz Festival', note:'Early October weekend' }
+    ] },
+
+  { id:'branson', name:'Branson, MO', region:'Missouri',
+    type:['theme','roadtrip','nature'], driveHours:4.5, airport:'BKG',
+    budget:['low','mid'], groups:['couple','kids','teens','group'],
+    best:[4,5,6,9,10,11,12], avoid:[],
+    value:[2,3,11], holidays:[11,12],
+    blurb:'Silver Dollar City, Table Rock Lake, live music shows. Christmas season is nationally famous.',
+    costNights:[90,170], costMeals:[30,55],
+    tips:{ 11:'Silver Dollar City Christmas lights start mid-Nov — worth the trip.',
+           12:'Peak Christmas season. Book 60+ days out.',
+           4:'Spring shows open, wildflowers on the Ozark hikes.' },
+    events:[
+      { month:5, name:'Silver Dollar City Bluegrass & BBQ', note:'Entire month of May' },
+      { month:9, name:'Silver Dollar City Harvest Festival', note:'Pumpkins + craft demos, all Sept-Oct' },
+      { month:11, name:'An Old Time Christmas at Silver Dollar City', note:'Starts early Nov, 6.5M lights' },
+      { month:12, name:'An Old Time Christmas at Silver Dollar City', note:'Through end of year, book early' }
+    ] },
+
+  { id:'eureka', name:'Eureka Springs, AR', region:'Arkansas',
+    type:['roadtrip','foodie','nature'], driveHours:3.5, airport:null,
+    budget:['low','mid'], groups:['couple','solo','group'],
+    best:[4,5,9,10], avoid:[1,2], value:[3,11],
+    blurb:'Victorian mountain town, art galleries, wineries, and Thorncrown Chapel. One of the most atmospheric weekend trips in the Ozarks.',
+    costNights:[110,180], costMeals:[30,65],
+    tips:{ 10:'Peak fall foliage — arguably the best in the region.',
+           4:'Dogwood season, garden tours.',
+           10.5:'Halloween events fill up — book 2 months ahead.' },
+    events:[
+      { month:5, name:'May Festival of the Arts', note:'All month, gallery crawls + live events' },
+      { month:9, name:'Original Ozark Folk Festival', note:'Oldest folk fest in US, 2nd weekend' },
+      { month:10, name:'Eureka Springs Halloween Festival', note:'Full week of haunted tours + parades' }
+    ] },
+
+  { id:'okc', name:'Oklahoma City, OK', region:'Oklahoma',
+    type:['city','foodie'], driveHours:1.5, airport:'OKC',
+    budget:['low','mid'], groups:['couple','solo','kids','teens','group'],
+    best:[3,4,5,9,10,11], avoid:[7,8],
+    value:[1,2,7,8],
+    blurb:'Bricktown, the Memorial, National Cowboy Museum, and a genuinely underrated food scene. Close enough for a 2-day escape.',
+    costNights:[90,160], costMeals:[35,70],
+    tips:{ 4:'Festival of the Arts downtown mid-April.',
+           6:'Red Earth Festival celebrates Native American culture.' },
+    events:[
+      { month:4, name:'OKC Festival of the Arts', note:'4-day downtown fest, late April' },
+      { month:4, name:'OKC Memorial Marathon', note:'Last Sunday of April, hotels fill up' },
+      { month:6, name:'Red Earth Festival', note:'Native American art + powwow, early June' },
+      { month:9, name:'Oklahoma State Fair', note:'Mid-to-late Sept, 11 days' }
+    ] },
+
+  { id:'dallas', name:'Dallas, TX', region:'Texas',
+    type:['city','foodie','theme'], driveHours:4.5, airport:'DFW',
+    budget:['mid','high'], groups:['couple','kids','teens','group'],
+    best:[3,4,5,10,11], avoid:[7,8], value:[1,2],
+    blurb:'Six Flags, the State Fair in October, world-class steakhouses, Deep Ellum nightlife. DFW is also your cheapest flight hub &mdash; drive here for flights to save $200+.',
+    costNights:[120,220], costMeals:[40,90],
+    tips:{ 10:'State Fair of Texas — one of the biggest in the country.',
+           3:'March Madness weekend deals after tournament ends.' },
+    events:[
+      { month:4, name:'Dallas Art Fair', note:'Early April, 90+ galleries' },
+      { month:9, name:'State Fair of Texas', note:'Starts late Sept, runs 24 days' },
+      { month:10, name:'State Fair of Texas', note:'Massive — Big Tex, corn dogs, Cotton Bowl' },
+      { month:12, name:'Dallas Holiday Parade', note:'First Saturday of December' }
+    ] },
+
+  { id:'memphis', name:'Memphis, TN', region:'Tennessee',
+    type:['city','foodie','roadtrip'], driveHours:5.5, airport:'MEM',
+    budget:['low','mid'], groups:['couple','solo','group','teens'],
+    best:[4,5,9,10], avoid:[7,8], value:[1,2,11],
+    blurb:'Graceland, Beale Street, world-championship BBQ, and the Civil Rights Museum. Music history on every corner.',
+    costNights:[95,175], costMeals:[30,65],
+    tips:{ 5:'Memphis in May festival — BBQ competition + music fest.',
+           9:'Cooler weather, fewer crowds after Labor Day.' },
+    events:[
+      { month:5, name:'Memphis in May Festival', note:'Entire month: Beale St Music Fest + World BBQ Championship' },
+      { month:8, name:'Elvis Week', note:'Mid-August, Graceland candlelight vigil Aug 15' },
+      { month:10, name:'Mid-South Fair', note:'Late Sept to early Oct' }
+    ] },
+
+  { id:'neworleans', name:'New Orleans, LA', region:'Louisiana',
+    type:['city','foodie','roadtrip'], driveHours:10, airport:'MSY',
+    budget:['mid','high'], groups:['couple','solo','group','teens'],
+    best:[3,4,10,11,12], avoid:[7,8], value:[1,6,7,8],
+    blurb:'Jazz, beignets, the French Quarter, and some of the best food in America. Drive is long but the payoff is huge.',
+    costNights:[130,260], costMeals:[45,110],
+    tips:{ 4:'Jazz Fest late April/early May — book 6 months out.',
+           12:'December is mild, decorations are magical, crowds are thin.',
+           7:'Hot & humid but hotels are 40% cheaper.' },
+    events:[
+      { month:2, name:'Mardi Gras', note:'Dates shift — Feb 17 (2026) / Feb 9 (2027). Book 6+ mo ahead' },
+      { month:3, name:'St. Patrick\'s Day Parade', note:'Irish Channel, big beads-and-cabbage tradition' },
+      { month:4, name:'French Quarter Fest', note:'Early April, free music, less crowded than Jazz Fest' },
+      { month:5, name:'Jazz & Heritage Festival', note:'Last weekend April + first weekend May' },
+      { month:10, name:'Voodoo Fest (Halloween)', note:'End of Oct, 3-day music fest' }
+    ] },
+
+  { id:'santafe', name:'Santa Fe, NM', region:'New Mexico',
+    type:['city','nature','foodie','roadtrip'], driveHours:9, airport:'SAF',
+    budget:['mid','high'], groups:['couple','solo','group'],
+    best:[5,6,9,10], avoid:[],
+    value:[1,2,11], holidays:[12],
+    blurb:'Adobe architecture, world-class Southwestern cuisine, art galleries, and easy day trips to Taos or Bandelier.',
+    costNights:[150,280], costMeals:[40,95],
+    tips:{ 9:'Indian Market weekend — largest Native arts event in the world.',
+           12:'Farolito Walk Christmas Eve is unforgettable.',
+           6:'Mild, low humidity, long days.' },
+    events:[
+      { month:7, name:'International Folk Art Market', note:'Mid-July, 150+ artists from 50+ countries' },
+      { month:8, name:'Santa Fe Indian Market', note:'3rd weekend of Aug, largest Native arts event' },
+      { month:9, name:'Fiesta de Santa Fe', note:'Labor Day weekend + following week' },
+      { month:12, name:'Farolito Walk on Canyon Road', note:'Christmas Eve, thousands of candle-lit bags' }
+    ] },
+
+  { id:'destin', name:'Destin, FL', region:'Florida Panhandle',
+    type:['beach','foodie'], driveHours:11, airport:'VPS',
+    budget:['mid','high'], groups:['couple','kids','teens','group'],
+    best:[4,5,9,10], avoid:[6,7,8], value:[3,9,10,11],
+    blurb:'Emerald-green water, white sugar sand, family-friendly beaches. The Gulf\u2019s best-kept non-secret.',
+    costNights:[160,320], costMeals:[40,95],
+    tips:{ 9:'Shoulder season sweet spot — water still 80°F, crowds gone, rates drop 30-40%.',
+           5:'May is perfect — warm water, no hurricanes, kids still in school = emptier beaches.',
+           7:'Peak tourist crush. Skip unless you must go in summer.' },
+    events:[
+      { month:10, name:'Destin Seafood Festival', note:'First weekend of October, free admission' },
+      { month:10, name:'Destin Fishing Rodeo', note:'All month, largest fishing tournament in US' },
+      { month:11, name:'30A Songwriters Festival', note:'Varies — sometimes January too, check dates' }
+    ] },
+
+  { id:'gulfshores', name:'Gulf Shores, AL', region:'Alabama Gulf',
+    type:['beach','foodie'], driveHours:11, airport:'PNS',
+    budget:['mid'], groups:['couple','kids','teens'],
+    best:[4,5,9,10], avoid:[7,8], value:[3,9,10,11],
+    blurb:'More affordable Gulf beach alternative to Destin. Excellent seafood, quieter stretches, and condo rentals are cheap.',
+    costNights:[130,240], costMeals:[35,75],
+    tips:{ 10:'Shrimp Festival 2nd weekend of October.',
+           4:'Spring break crowds through mid-April, then blissfully quiet.' },
+    events:[
+      { month:5, name:'Hangout Music Festival', note:'Mid-May, 3-day beach music fest' },
+      { month:10, name:'National Shrimp Festival', note:'2nd weekend of Oct, 300K attendees' }
+    ] },
+
+  // ── SHORT FLIGHTS FROM TULSA/OKC/DFW ──
+  { id:'vegas', name:'Las Vegas, NV', region:'Nevada',
+    type:['city','foodie'], driveHours:null, airport:'LAS',
+    budget:['low','mid','high'], groups:['couple','group','teens'],
+    best:[3,4,10,11], avoid:[7,8], value:[1,2,8,12],
+    blurb:'Shows, restaurants, pools, or just people-watching on the Strip. Mid-week flights + hotels are the cheapest major-city combo in America.',
+    costNights:[80,300], costMeals:[40,120],
+    tips:{ 1:'January is dirt cheap post-New Year. Rooms as low as $40/night mid-week.',
+           3:'March Madness weekend — sportsbooks fill up, hotels don\u2019t drop prices.',
+           8:'110°F+ but pools make it bearable and rates are low.' },
+    events:[
+      { month:1, name:'CES Tech Conference', note:'Early Jan, hotels double — avoid or embrace' },
+      { month:3, name:'March Madness Opening Weekend', note:'Sportsbook madness, electric atmosphere' },
+      { month:9, name:'Life is Beautiful Festival', note:'3-day music fest downtown, late Sept' },
+      { month:11, name:'Las Vegas Grand Prix (F1)', note:'Mid-Nov, rooms 3x normal price' },
+      { month:12, name:'National Finals Rodeo', note:'Early-to-mid Dec, cowboy takeover' }
+    ] },
+
+  { id:'denver', name:'Denver, CO', region:'Colorado',
+    type:['city','nature','foodie'], driveHours:11, airport:'DEN',
+    budget:['mid','high'], groups:['couple','solo','group','teens'],
+    best:[5,6,9,10], avoid:[],
+    value:[1,2,4,11], holidays:[12,1,2],
+    blurb:'Craft beer capital, great food, Rocky Mountain day trips, and a walkable downtown. Ski day trips Dec-March.',
+    costNights:[140,260], costMeals:[40,90],
+    tips:{ 1:'Ski season prime. Fly in, drive 90 min to the slopes.',
+           9:'Aspen color peaks late Sept — best weekend of the year.',
+           4:'Mud season — hotels are cheap and weather is unpredictable.' },
+    events:[
+      { month:1, name:'National Western Stock Show', note:'Mid-Jan, 16-day rodeo + livestock fest' },
+      { month:6, name:'Great American Beer Festival', note:'Early Oct actually — tickets sell out same day' },
+      { month:9, name:'A Taste of Colorado', note:'Labor Day weekend downtown' },
+      { month:10, name:'Great American Beer Festival', note:'Early Oct, tickets gone in hours' }
+    ] },
+
+  { id:'nashville', name:'Nashville, TN', region:'Tennessee',
+    type:['city','foodie'], driveHours:10, airport:'BNA',
+    budget:['mid','high'], groups:['couple','group','teens'],
+    best:[4,5,9,10,11], avoid:[7,8], value:[1,2],
+    blurb:'Honky Tonk Row, the Ryman, hot chicken, and a bachelorette party on every corner. Live music every night.',
+    costNights:[160,300], costMeals:[35,80],
+    tips:{ 6:'CMA Fest — plan around it or book 9 months ahead.',
+           1:'Cheapest month, coldest weather, best restaurant reservations.' },
+    events:[
+      { month:6, name:'CMA Fest', note:'Early June, 4-day country music fest, hotels 3x' },
+      { month:9, name:'AmericanaFest', note:'Mid-Sept, 6 days of alt-country showcases' },
+      { month:11, name:'Christmas Village at Cheekwood', note:'Starts mid-Nov, million+ lights' }
+    ] },
+
+  { id:'orlando', name:'Orlando, FL', region:'Florida',
+    type:['theme'], driveHours:null, airport:'MCO',
+    budget:['mid','high'], groups:['kids','teens','couple'],
+    best:[1,2,3,4,5,9,10,11], avoid:[6,7,8], value:[1,2,9,11],
+    blurb:'Disney World, Universal, SeaWorld. Planning the trip is half the battle.',
+    costNights:[150,400], costMeals:[50,130],
+    tips:{ 1:'Early January after New Year = lowest crowds all year at Disney.',
+           9:'Value season mid-September is genuinely low crowd, low price.',
+           11:'Thanksgiving week = worst crowds. Avoid.' },
+    events:[
+      { month:9, name:'Epcot Food & Wine Festival', note:'Runs late Aug through Nov' },
+      { month:10, name:'Halloween Horror Nights (Universal)', note:'Fri/Sat/Sun Sept-Oct, separate ticket' },
+      { month:10, name:'Mickey\'s Not-So-Scary Halloween Party', note:'Select nights Aug-Oct' },
+      { month:11, name:'Epcot Festival of the Holidays', note:'Late Nov through Dec 30' },
+      { month:12, name:'Mickey\'s Very Merry Christmas Party', note:'Select nights Nov-Dec' }
+    ] },
+
+  { id:'nyc', name:'New York City, NY', region:'New York',
+    type:['city','foodie'], driveHours:null, airport:'LGA',
+    budget:['high'], groups:['couple','solo','group','teens'],
+    best:[4,5,9,10,11,12], avoid:[7,8], value:[1,2,3],
+    blurb:'Broadway, museums, every cuisine on earth, and the best people-watching anywhere. 4 days is plenty for a first visit.',
+    costNights:[200,450], costMeals:[60,160],
+    tips:{ 12:'Christmas-to-NYE is magical but expensive. Book 4+ months out.',
+           1:'Jan-Feb are cheapest, coldest. Broadway Week in Jan = 2-for-1 tickets.',
+           9:'Best weather of the year. Fashion Week early Sept means hotels fill.' },
+    events:[
+      { month:1, name:'NYC Broadway Week', note:'Late Jan to early Feb, 2-for-1 tickets' },
+      { month:3, name:'St. Patrick\'s Day Parade', note:'March 17, oldest and largest in world' },
+      { month:9, name:'US Open Tennis', note:'Late Aug through early Sept' },
+      { month:11, name:'Macy\'s Thanksgiving Day Parade', note:'Thanksgiving morning' },
+      { month:12, name:'Rockefeller Christmas Tree Lighting', note:'Late Nov, tree up through early Jan' }
+    ] },
+
+  { id:'chicago', name:'Chicago, IL', region:'Illinois',
+    type:['city','foodie'], driveHours:11, airport:'ORD',
+    budget:['mid','high'], groups:['couple','group','teens'],
+    best:[5,6,9,10], avoid:[1,2], value:[3,11],
+    blurb:'Deep dish, the lakefront, Millennium Park, and the best architecture boat tour in America.',
+    costNights:[160,320], costMeals:[45,110],
+    tips:{ 6:'Summer festival season starts — Taste of Chicago, Blues Fest.',
+           1:'Brutal cold. Hotels cheap. Not worth it unless indoor plans.',
+           10:'Perfect weather, fall colors along the lake.' },
+    events:[
+      { month:6, name:'Chicago Blues Festival', note:'Early June, free in Millennium Park' },
+      { month:7, name:'Taste of Chicago', note:'Mid-July, 5-day food fest in Grant Park' },
+      { month:8, name:'Lollapalooza', note:'Early Aug, 4-day music fest, hotels insane' },
+      { month:9, name:'Chicago Jazz Festival', note:'Labor Day weekend, free' }
+    ] },
+
+  // ── CRUISES (drive to port) ──
+  { id:'galveston', name:'Galveston Cruise (Caribbean)', region:'Texas',
+    type:['cruise','beach'], driveHours:8, airport:null,
+    budget:['mid','high'], groups:['couple','kids','teens','group'],
+    best:[1,2,3,4,5,10,11,12], avoid:[6,7,8,9], value:[1,2,11],
+    blurb:'Drive to Galveston (Royal Caribbean, Carnival, Disney). Skip flight costs entirely. 4-7 day Caribbean itineraries.',
+    costNights:[100,220], costMeals:[0,0],
+    tips:{ 9:'Hurricane season peak — avoid or get insurance.',
+           1:'Cheapest cruise month after the holidays.',
+           11:'Perfect weather in the Caribbean, deals on 4-day cruises.' },
+    events:[
+      { month:2, name:'Galveston Mardi Gras', note:'2-weekend fest before Fat Tuesday' },
+      { month:12, name:'Dickens on the Strand', note:'First weekend Dec, Victorian Christmas fest' }
+    ] },
+
+  { id:'neworleans-cruise', name:'New Orleans Cruise (Caribbean)', region:'Louisiana',
+    type:['cruise'], driveHours:10, airport:null,
+    budget:['mid','high'], groups:['couple','group'],
+    best:[1,2,3,4,11,12], avoid:[6,7,8,9], value:[1,2,11],
+    blurb:'Drive to New Orleans, cruise out of the Port of NOLA. Pair with 2 nights in the French Quarter for the best of both worlds.',
+    costNights:[110,230], costMeals:[0,0],
+    tips:{ 2:'Mardi Gras week — combine with cruise for legendary trip.',
+           9:'Hurricane risk. Avoid.' },
+    events:[
+      { month:2, name:'Mardi Gras', note:'Dates shift annually — legendary combo with a cruise' },
+      { month:4, name:'French Quarter Fest', note:'Free music fest, less crowded than Jazz Fest' }
+    ] }
+];
+
+// State management helpers
+function tpSave(){ try{ localStorage.setItem('TripPlanner', JSON.stringify(TPS)); }catch(e){} }
+function tpLoad(){ try{ var s=localStorage.getItem('TripPlanner'); if(s){ var p=JSON.parse(s); if(p){ TPS.styles=p.styles||[]; TPS.budget=p.budget||'mid'; TPS.group=p.group||'couple'; TPS.dist=p.dist||'any'; } } }catch(e){} }
+
+function tpToggle(btn){
+  var v = btn.getAttribute('data-v');
+  var i = TPS.styles.indexOf(v);
+  if(i===-1){ TPS.styles.push(v); btn.classList.add('on'); }
+  else { TPS.styles.splice(i,1); btn.classList.remove('on'); }
+  tpSave();
+}
+
+function tpPick(btn, groupId){
+  var grp = document.getElementById(groupId);
+  grp.querySelectorAll('.tp-chip').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  var v = btn.getAttribute('data-v');
+  if(groupId==='tp-budgets') TPS.budget=v;
+  else if(groupId==='tp-group') TPS.group=v;
+  else if(groupId==='tp-dist') TPS.dist=v;
+  tpSave();
+}
+
+function tpRestoreUI(){
+  // Mark the active chips in each prefs group
+  document.querySelectorAll('#tp-styles .tp-chip').forEach(function(b){
+    b.classList.toggle('on', TPS.styles.indexOf(b.getAttribute('data-v'))!==-1);
+  });
+  ['tp-budgets','tp-group','tp-dist'].forEach(function(gid){
+    var grp = document.getElementById(gid);
+    if(!grp) return;
+    var v = gid==='tp-budgets'?TPS.budget : gid==='tp-group'?TPS.group : TPS.dist;
+    grp.querySelectorAll('.tp-chip').forEach(function(b){
+      b.classList.toggle('on', b.getAttribute('data-v')===v);
+    });
+  });
+}
+
+// Called when user clicks "Plan This Trip" on an optimizer result card
+function planTripFromWindow(startISO, endISO){
+  TPS.startISO = startISO;
+  TPS.endISO = endISO;
+  go('trip');
+}
+
+function renderTripDates(){
+  tpRestoreUI();
+  var w = document.getElementById('tp-dates-wrap');
+  if(!w) return;
+  if(TPS.startISO && TPS.endISO){
+    var days = Math.round((new Date(TPS.endISO+'T12:00:00') - new Date(TPS.startISO+'T12:00:00'))/86400000)+1;
+    w.innerHTML = '<div class="tp-dates">'
+      +'<div>&#128197; '+fs(TPS.startISO)+' &rarr; '+fs(TPS.endISO)+' ('+days+' days)</div>'
+      +'<button class="tp-clear" onclick="tpClearDates()">Clear dates</button>'
+      +'</div>';
+  } else {
+    w.innerHTML = '<div class="tp-dates" style="background:var(--bg);border-color:var(--border);color:var(--muted)">'
+      +'<div>&#9432; No dates selected &mdash; results will show destinations good for general travel</div>'
+      +'<button class="tp-clear" onclick="go(\'rpt\')">Pick from Optimizer</button>'
+      +'</div>';
+  }
+}
+
+function tpClearDates(){
+  TPS.startISO = null; TPS.endISO = null;
+  renderTripDates();
+  var out = document.getElementById('tp-out');
+  if(out) out.innerHTML = '';
+}
+
+// Get the primary month of a trip window
+function tpTripMonth(startISO, endISO){
+  if(!startISO) return null;
+  var s = new Date(startISO+'T12:00:00');
+  var e = new Date(endISO+'T12:00:00');
+  var midMs = (s.getTime()+e.getTime())/2;
+  return new Date(midMs).getMonth()+1; // 1-12
+}
+
+// Score a destination against user prefs + dates
+function tpScore(dest, month){
+  var score = 0;
+  var reasons = [];
+
+  // Style match (big weight)
+  var styleMatches = TPS.styles.filter(function(s){return dest.type.indexOf(s)!==-1;});
+  if(TPS.styles.length > 0){
+    if(styleMatches.length === 0) return {score:-999, reasons:[]}; // hard filter
+    score += styleMatches.length * 50;
+  }
+
+  // Budget match
+  if(dest.budget.indexOf(TPS.budget)===-1){
+    // Not a hard filter but significant penalty
+    if(TPS.budget==='low') score -= 40;
+    else score -= 15;
+  } else {
+    score += 20;
+  }
+
+  // Group match
+  if(dest.groups.indexOf(TPS.group)===-1) score -= 25;
+  else score += 15;
+
+  // Distance match
+  if(TPS.dist==='drive'){
+    if(dest.driveHours===null || dest.driveHours > 10) return {score:-999, reasons:[]};
+    score += 30;
+  } else if(TPS.dist==='fly'){
+    if(!dest.airport) score -= 20;
+    else score += 15;
+  }
+  // 'any' = no adjustment
+
+  // Seasonal match (if we have a month)
+  if(month){
+    if(dest.avoid && dest.avoid.indexOf(month)!==-1){
+      score -= 60;
+      reasons.push({type:'avoid', text:'Not ideal in '+MN[month-1]+' &mdash; check tips'});
+    } else if(dest.best && dest.best.indexOf(month)!==-1){
+      score += 45;
+      reasons.push({type:'best', text:MN[month-1]+' is one of the best months here'});
+    }
+    if(dest.value && dest.value.indexOf(month)!==-1){
+      score += 30;
+      reasons.push({type:'deal', text:'Value season &mdash; prices 20-40% lower than peak'});
+    }
+    if(dest.holidays && dest.holidays.indexOf(month)!==-1){
+      score += 15;
+      reasons.push({type:'holiday', text:'Great time for seasonal/holiday experiences'});
+    }
+    // Month-specific tip
+    if(dest.tips && dest.tips[month]){
+      reasons.push({type:'tip', text:dest.tips[month]});
+    }
+  }
+
+  return {score:score, reasons:reasons, styleMatches:styleMatches};
+}
+
+// Build a pre-filled Google Flights URL
+function tpFlightsURL(dest, startISO, endISO){
+  if(!dest.airport || !startISO) return null;
+  // Google Flights: https://www.google.com/travel/flights?q=Flights+to+LAS+from+TUL+on+2025-09-03+through+2025-09-06
+  var q = 'Flights to '+dest.airport+' from TUL on '+startISO+' through '+endISO;
+  return 'https://www.google.com/travel/flights?q=' + encodeURIComponent(q);
+}
+
+// Build a pre-filled Booking.com URL
+function tpHotelsURL(dest, startISO, endISO){
+  // https://www.booking.com/searchresults.html?ss=Destin+FL&checkin=YYYY-MM-DD&checkout=YYYY-MM-DD
+  var base = 'https://www.booking.com/searchresults.html?ss=' + encodeURIComponent(dest.name);
+  if(startISO && endISO){
+    base += '&checkin=' + startISO + '&checkout=' + endISO;
+  }
+  return base;
+}
+
+// Build an Expedia URL as a secondary option
+function tpExpediaURL(dest, startISO, endISO){
+  // Expedia hotel search
+  var base = 'https://www.expedia.com/Hotel-Search?destination=' + encodeURIComponent(dest.name);
+  if(startISO && endISO){
+    base += '&startDate=' + startISO + '&endDate=' + endISO;
+  }
+  return base;
+}
+
+// Kayak — good for flexible search, works even without exact airport
+function tpKayakURL(dest, startISO, endISO){
+  if(!dest.airport || !startISO) return null;
+  // https://www.kayak.com/flights/TUL-LAS/2025-09-03/2025-09-06
+  return 'https://www.kayak.com/flights/TUL-'+dest.airport+'/'+startISO+'/'+endISO;
+}
+
+// Google Maps for driving directions
+function tpDriveURL(dest){
+  return 'https://www.google.com/maps/dir/Tulsa,+OK/' + encodeURIComponent(dest.name);
+}
+
+function tpSearch(){
+  var out = document.getElementById('tp-out');
+  var month = tpTripMonth(TPS.startISO, TPS.endISO);
+  var numDays = TPS.startISO ? Math.round((new Date(TPS.endISO+'T12:00:00') - new Date(TPS.startISO+'T12:00:00'))/86400000)+1 : 4;
+
+  var scored = DESTS.map(function(d){
+    var s = tpScore(d, month);
+    return {dest:d, score:s.score, reasons:s.reasons, styleMatches:s.styleMatches};
+  }).filter(function(r){ return r.score > -500; });
+
+  scored.sort(function(a,b){ return b.score - a.score; });
+
+  if(!scored.length){
+    out.innerHTML = '<div class="tp-empty">No destinations matched your filters. Try removing a style or changing distance.</div>';
+    return;
+  }
+
+  // Take top 6
+  var top = scored.slice(0, 6);
+
+  var html = '<div class="sec-sub" style="margin-top:4px">Showing '+top.length+' destinations ranked for your preferences'
+    + (month?' in '+MN[month-1]:'')+'.</div>';
+  html += '<div class="tp-results">';
+
+  top.forEach(function(r, i){
+    var d = r.dest;
+    var isTop = i===0;
+    var cardCls = 'tp-card' + (isTop?' top':'');
+    var matchPct = Math.max(40, Math.min(99, 60 + Math.round(r.score/3)));
+
+    // Cost estimate for the trip
+    var nightsLow = d.costNights[0]*(numDays-1);
+    var nightsHigh = d.costNights[1]*(numDays-1);
+    var mealsLow = d.costMeals[0]*numDays;
+    var mealsHigh = d.costMeals[1]*numDays;
+    var totalLow = nightsLow + mealsLow;
+    var totalHigh = nightsHigh + mealsHigh;
+
+    // Group size multiplier for meals/rooms
+    var partySize = (TPS.group==='solo'||TPS.group==='couple')?1 : 1.6;
+    totalLow = Math.round(totalLow * partySize / 10) * 10;
+    totalHigh = Math.round(totalHigh * partySize / 10) * 10;
+
+    // Tags
+    var tagsHtml = '';
+    var seenDeal = false;
+    r.reasons.forEach(function(rs){
+      if(rs.type==='deal' && !seenDeal){ tagsHtml += '<span class="tp-tag deal">&#128176; Value Season</span>'; seenDeal=true; }
+    });
+    if(d.driveHours && d.driveHours<=6) tagsHtml += '<span class="tp-tag drive">&#128663; '+d.driveHours+'h drive</span>';
+    else if(d.driveHours && d.driveHours<=10) tagsHtml += '<span class="tp-tag drive">&#128663; '+d.driveHours+'h drive</span>';
+    if(d.groups.indexOf('kids')!==-1 && (TPS.group==='kids'||TPS.group==='teens')) tagsHtml += '<span class="tp-tag kid">&#128102; Family Friendly</span>';
+
+    // Why fits
+    var whyHtml = '';
+    var bestReason = r.reasons.find(function(x){return x.type==='best';});
+    var dealReason = r.reasons.find(function(x){return x.type==='deal';});
+    var tipReason = r.reasons.find(function(x){return x.type==='tip';});
+    var holReason = r.reasons.find(function(x){return x.type==='holiday';});
+    var avoidReason = r.reasons.find(function(x){return x.type==='avoid';});
+
+    var whyParts = [];
+    if(avoidReason) whyParts.push('<b>Heads up:</b> '+avoidReason.text+'.');
+    if(bestReason) whyParts.push(bestReason.text+'.');
+    if(dealReason) whyParts.push(dealReason.text+'.');
+    if(holReason) whyParts.push(holReason.text+'.');
+    if(tipReason) whyParts.push('<b>Local tip:</b> '+tipReason.text);
+
+    if(whyParts.length){
+      whyHtml = '<div class="tp-why">'+whyParts.join('<br>')+'</div>';
+    }
+
+    // Links
+    var links = '';
+    var flightU = tpFlightsURL(d, TPS.startISO, TPS.endISO);
+    var kayakU = tpKayakURL(d, TPS.startISO, TPS.endISO);
+    var hotelU = tpHotelsURL(d, TPS.startISO, TPS.endISO);
+    var expediaU = tpExpediaURL(d, TPS.startISO, TPS.endISO);
+    var driveU = tpDriveURL(d);
+
+    if(d.driveHours && d.driveHours<=10){
+      links += '<a class="tp-link primary" href="'+driveU+'" target="_blank" rel="noopener">&#128663; Directions</a>';
+    }
+    if(flightU){
+      links += '<a class="tp-link'+(d.driveHours?'':' primary')+'" href="'+flightU+'" target="_blank" rel="noopener">&#9992;&#65039; Flights</a>';
+    }
+    links += '<a class="tp-link" href="'+hotelU+'" target="_blank" rel="noopener">&#127976; Hotels</a>';
+    if(kayakU){
+      links += '<a class="tp-link" href="'+kayakU+'" target="_blank" rel="noopener">Kayak</a>';
+    }
+    links += '<a class="tp-link" href="'+expediaU+'" target="_blank" rel="noopener">Expedia</a>';
+    if(d.type.indexOf('cruise')!==-1){
+      links += '<a class="tp-link" href="https://www.cruisecritic.com/" target="_blank" rel="noopener">Cruise Deals</a>';
+    }
+
+    // Festivals / events during trip window
+    var eventsHtml = '';
+    if(d.events && month){
+      var matchingEvents = d.events.filter(function(e){ return e.month===month; });
+      if(matchingEvents.length){
+        var evs = matchingEvents.map(function(e){
+          return '<div class="tp-event-item"><b>'+e.name+'</b><div class="tp-event-note">'+e.note+'</div></div>';
+        }).join('');
+        eventsHtml = '<div class="tp-events">'
+          +'<div class="tp-events-title">&#127881; Happening during your dates</div>'
+          +evs+'</div>';
+      }
+    }
+
+    // AI itinerary button (only works if dates are set)
+    var aiBtnHtml = '';
+    if(TPS.startISO && TPS.endISO){
+      aiBtnHtml = '<button class="tp-ai-btn" onclick="tpBuildItinerary(\''+d.id+'\',this)">&#10024; Build My Itinerary</button>'
+        + '<div id="ai-out-'+d.id+'"></div>';
+    }
+
+    html += '<div class="'+cardCls+'">'
+      +'<div class="tp-hdr">'
+        +'<div class="tp-hdr-main">'
+          +'<div class="tp-name">'+d.name+'</div>'
+          +'<div class="tp-sub">'+d.region+(d.driveHours?' &bull; '+d.driveHours+'hr drive':'')+(d.airport?' &bull; '+d.airport:'')+'</div>'
+        +'</div>'
+        +'<div class="tp-match">'+matchPct+'% match</div>'
+      +'</div>'
+      +'<div class="tp-body">'
+        +'<div class="tp-blurb">'+d.blurb+'</div>'
+        +whyHtml
+        +eventsHtml
+        +'<div class="tp-cost">'
+          +'<div class="tp-cost-item"><div class="tp-cost-lbl">Est. Lodging+Food</div><div class="tp-cost-val">$'+totalLow+' - $'+totalHigh+'</div></div>'
+          +'<div class="tp-cost-item"><div class="tp-cost-lbl">'+numDays+'-Day Trip</div><div class="tp-cost-val">'+(TPS.group==='solo'||TPS.group==='couple'?'1-2 people':'3-4 people')+'</div></div>'
+        +'</div>'
+        +(tagsHtml?'<div class="tp-tags">'+tagsHtml+'</div>':'')
+        +aiBtnHtml
+      +'</div>'
+      +'<div class="tp-links">'+links+'</div>'
+      +'</div>';
+  });
+
+  html += '</div>';
+  html += '<div class="tp-count">Showing top '+top.length+' of '+scored.length+' destinations. Costs exclude flights &mdash; check the flight links for live prices.</div>';
+
+  out.innerHTML = html;
+}
+
+tpLoad();
+
+// Build AI itinerary via Pages Function at /api/itinerary
+// Gracefully degrades if the endpoint isn't deployed yet.
+function tpBuildItinerary(destId, btn){
+  var dest = DESTS.find(function(d){return d.id===destId;});
+  if(!dest) return;
+  var outEl = document.getElementById('ai-out-'+destId);
+  if(!outEl) return;
+
+  btn.disabled = true;
+  btn.innerHTML = '&#9203; Thinking...';
+  outEl.innerHTML = '<div class="tp-ai-loading"><div class="tp-ai-spinner"></div>Gemini is planning your trip...</div>';
+
+  var numDays = Math.round((new Date(TPS.endISO+'T12:00:00') - new Date(TPS.startISO+'T12:00:00'))/86400000)+1;
+  var payload = {
+    dest: dest.name,
+    region: dest.region,
+    blurb: dest.blurb,
+    startDate: TPS.startISO,
+    endDate: TPS.endISO,
+    numDays: numDays,
+    budget: TPS.budget,
+    group: TPS.group,
+    styles: TPS.styles,
+    driveHours: dest.driveHours,
+    tips: dest.tips || {},
+    events: dest.events || [],
+    origin: 'Tulsa, OK'
+  };
+
+  fetch('/api/itinerary', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  })
+  .then(function(r){
+    if(!r.ok) throw new Error('status-'+r.status);
+    return r.json();
+  })
+  .then(function(data){
+    if(data && data.itinerary){
+      outEl.innerHTML = '<div class="tp-ai-out">'
+        +'<div class="tp-ai-out-title">&#10024; AI-Generated Itinerary for '+dest.name+'</div>'
+        + escapeAI(data.itinerary).replace(/\n/g,'<br>')
+        +'</div>';
+    } else if(data && data.error){
+      throw new Error(data.error);
+    } else {
+      throw new Error('empty-response');
+    }
+    btn.disabled = false;
+    btn.innerHTML = '&#10024; Rebuild Itinerary';
+  })
+  .catch(function(err){
+    var msg = String(err.message||err);
+    var helpful = '';
+    if(msg.indexOf('status-404')!==-1){
+      helpful = 'The AI itinerary service isn\'t set up yet. See the README for setup steps (Gemini API key + /api/itinerary function).';
+    } else if(msg.indexOf('status-429')!==-1){
+      helpful = 'Daily AI limit reached. Try again tomorrow, or use the Directions/Flights/Hotels links below for booking.';
+    } else if(msg.indexOf('status-5')!==-1){
+      helpful = 'AI service temporarily down. Check the seasonal tips above &mdash; they cover the best events during your trip.';
+    } else {
+      helpful = 'Couldn\'t reach the AI service. The destination info and event list above still has you covered.';
+    }
+    outEl.innerHTML = '<div class="tp-ai-err">'+helpful+'</div>';
+    btn.disabled = false;
+    btn.innerHTML = '&#10024; Build My Itinerary';
+  });
+}
+
+function escapeAI(s){
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
 }
 
 // ── BOOT ─────────────────────────────────────────────────────────
