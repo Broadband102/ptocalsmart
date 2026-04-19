@@ -128,8 +128,9 @@ async function handleItinerary(request, env) {
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         generationConfig: {
           temperature: 0.8,
-          maxOutputTokens: 900,
-          topP: 0.95
+          maxOutputTokens: 2048,
+          topP: 0.95,
+          thinkingConfig: { thinkingBudget: 0 }
         }
       })
     });
@@ -146,6 +147,12 @@ async function handleItinerary(request, env) {
     }
 
     const gData = await gResp.json();
+
+    // Log metadata about the response for debugging truncation issues
+    const finishReason = gData?.candidates?.[0]?.finishReason;
+    const usage = gData?.usageMetadata;
+    console.log('Gemini response:', JSON.stringify({ finishReason, usage }));
+
     const text =
       gData &&
       gData.candidates &&
